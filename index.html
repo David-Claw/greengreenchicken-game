@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Green Green Chicken 🐔🌿 GWEEN GWEEN!</title>
-    <meta property="og:title" content="Green Green Chicken - GWEEN GWEEN!">
-    <meta property="og:description" content="The viral TikTok meme game! Tap sides to switch lanes, collect GREEN, scream GWEEN GWEEN CHICKEN!">
-    <meta property="og:image" content="https://picsum.photos/id/237/1200/630">
+    <title>Super Green Green Chicken 🐔🌿</title>
+    <meta property="og:title" content="Super Green Green Chicken - Mario Style Meme Game!">
+    <meta property="og:description" content="GWEEN GWEEN! Jump, stomp foxes, collect green coins like Mario! Viral TikTok chicken fun!">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
-        body { margin:0; background:#0a220a; font-family:'Comic Neue', system-ui; overflow:hidden; touch-action:manipulation; }
+        body { margin:0; background:#0a220a; font-family:'Comic Neue',sans-serif; overflow:hidden; touch-action:manipulation; }
         #container { position:relative; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; background:#0a220a; }
-        canvas { border:14px solid #00ff88; border-radius:24px; box-shadow:0 0 50px #00ff88; image-rendering:pixelated; background:#112211; }
-        .overlay { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,34,10,0.94); pointer-events:none; z-index:10; }
+        canvas { border:14px solid #00ff88; border-radius:24px; box-shadow:0 0 60px #00ff88; image-rendering:pixelated; background:#113311; }
+        .overlay { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,34,10,0.95); pointer-events:none; z-index:20; }
         .overlay.active { display:flex; pointer-events:auto; }
-        h1 { font-size:3.8rem; margin:0 0 8px; text-shadow:6px 6px 0 #006600; line-height:1.05; }
-        p { font-size:1.7rem; margin:8px; text-shadow:2px 2px 4px #000; }
-        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:20px 50px; margin:14px; font-size:2rem; border-radius:999px; box-shadow:0 12px #006600; cursor:pointer; width:80%; max-width:340px; }
+        h1 { font-size:3.4rem; margin:0 0 10px; text-shadow:6px 6px 0 #006600; line-height:1; }
+        p { font-size:1.6rem; margin:10px; text-shadow:2px 2px 4px #000; }
+        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:18px 50px; margin:12px; font-size:1.9rem; border-radius:999px; box-shadow:0 10px #006600; cursor:pointer; width:78%; max-width:320px; }
         button:active { transform:translateY(6px); box-shadow:0 4px #006600; }
-        .combo { position:absolute; top:120px; left:50%; transform:translateX(-50%); font-size:3rem; color:#ffff00; text-shadow:4px 4px #006600; pointer-events:none; opacity:0; transition:opacity .3s; }
+        .hud { position:absolute; top:20px; left:20px; color:#fff; font-size:1.8rem; text-shadow:3px 3px #000; z-index:10; pointer-events:none; }
+        .combo { position:absolute; top:140px; left:50%; transform:translateX(-50%); font-size:3.2rem; color:#ffff00; text-shadow:5px 5px #006600; opacity:0; transition:opacity 0.4s; z-index:15; }
     </style>
 </head>
 <body>
@@ -27,35 +27,36 @@
         
         <!-- START -->
         <div id="start" class="overlay active">
-            <h1 onclick="easterTap()">GREEN GREEN<br>CHICKEN</h1>
-            <p style="font-size:2.8rem;margin:20px 0">GWEEN GWEEN! 🐔🌿</p>
-            <button onclick="startGame()">TAP TO START!</button>
-            <div style="font-size:1.5rem;margin-top:30px">👈 TAP LEFT / RIGHT 👉<br>to switch lanes</div>
-            <button onclick="showShop()" style="background:#77dd77;font-size:1.7rem;margin-top:40px">SHOP 🪙 <span id="totalCoins">0</span></button>
-            <p id="hs" style="margin-top:20px;font-size:1.5rem">Best: 0</p>
+            <h1>SUPER<br>GREEN GREEN<br>CHICKEN</h1>
+            <p style="font-size:2.6rem;margin:30px 0">🐔🌿 GWEEN GWEEN!</p>
+            <button onclick="startGame()">START GAME</button>
+            <div style="margin-top:40px;font-size:1.5rem">👆 TAP anywhere to JUMP<br>Hold longer = HIGHER jump!</div>
+            <button onclick="showShop()" style="background:#77dd77;margin-top:50px">SHOP 🪙 <span id="totalCoins">0</span></button>
+            <p id="hs" style="margin-top:20px">Best Run: 0m</p>
         </div>
         
         <!-- GAME OVER -->
         <div id="over" class="overlay">
             <h1 style="color:#ff3366">GAME OVER</h1>
-            <p id="final" style="font-size:2.8rem"></p>
-            <p id="meme" style="font-size:2.1rem;margin:30px 0"></p>
-            <button onclick="restart()">PLAY AGAIN 🐔</button>
-            <button onclick="share()">SHARE GWEEN GWEEN 📱</button>
+            <p id="final" style="font-size:2.6rem"></p>
+            <p id="meme" style="font-size:2rem;margin:25px 0 40px"></p>
+            <button onclick="restart()">TRY AGAIN 🐔</button>
+            <button onclick="share()">SHARE GWEEN! 📱</button>
             <button onclick="watchRewarded()">2× COINS (Ad) 🤑</button>
             <button onclick="menu()" style="background:#66aa66">MENU</button>
         </div>
         
         <!-- SHOP -->
         <div id="shop" class="overlay">
-            <h1>CHICKEN SHOP 🛒</h1>
-            <p id="shopCoins" style="font-size:2.6rem">🪙 0</p>
-            <button onclick="buySpeed()" style="font-size:1.6rem">Faster Run (60🪙) Lv.<span id="speedLv">1</span></button>
-            <button onclick="buyMagnet()" style="font-size:1.6rem">Coin Magnet (90🪙) Lv.<span id="magLv">0</span></button>
-            <button onclick="hideShop()" style="background:#cc4466;margin-top:50px">CLOSE</button>
+            <h1>POWER-UP SHOP</h1>
+            <p id="shopCoins" style="font-size:2.5rem;margin-bottom:30px">🪙 0</p>
+            <button onclick="buyJump()" style="font-size:1.6rem">Higher Jump (70🪙) Lv.<span id="jumpLv">1</span></button>
+            <button onclick="buyDouble()" style="font-size:1.6rem">Double Jump (120🪙) Lv.<span id="doubleLv">0</span></button>
+            <button onclick="hideShop()" style="background:#cc4466;margin-top:40px">BACK TO WORLD</button>
         </div>
         
-        <div id="comboText" class="combo">GWEEN GWEEN CHICKEN!!!</div>
+        <div class="hud" id="hud">0m ❤️❤️❤️</div>
+        <div id="comboText" class="combo">GWEEN GWEEN!!!</div>
     </div>
 
     <script>
@@ -63,28 +64,26 @@
         const ctx = canvas.getContext('2d');
         let W = 400, H = 620;
         
-        // Game vars
-        let playerLane = 1;
-        let targetLane = 1;
-        let playerX = 200;
-        let scrollSpeed = 2.8;
+        // Mario-style vars
+        let player = {x: 120, y: 400, vy: 0, width: 42, height: 42, grounded: false, doubleReady: true};
+        let scroll = 0;
+        let scrollSpeed = 3.6;
         let score = 0;
-        let highScore = +localStorage.getItem('ggcHS') || 0;
+        let highScore = +localStorage.getItem('ggcMarioHS') || 0;
         let totalCoins = +localStorage.getItem('ggcCoins') || 0;
-        let upgrades = JSON.parse(localStorage.getItem('ggcUpg')) || {speed:1, magnet:0};
-        let obstacles = [];
-        let collectibles = [];
+        let upgrades = JSON.parse(localStorage.getItem('ggcMarioUpg')) || {jump:1, double:0};
+        let platforms = [];
+        let enemies = [];
+        let coins = [];
         let particles = [];
         let frame = 0;
-        let combo = 0;
         let lives = 3;
+        let combo = 0;
         let gameState = 'start';
-        let lastSpawn = 0;
-        let hypeTime = 0;
         let audioCtx = null;
-        let deathMessages = ["GWEEN... too slow! 😭","Fox stole the ball! 🦊","Missed the green!","Chicken got cooked 🔥","GWEEN GWEEN... oops"];
+        let touchStartTime = 0;
         
-        const laneX = [90, 200, 310];
+        const deathMessages = ["Fell off the map! 😭","Fox got you sideways 🦊","GWEEN... not high enough","Hit a pipe!","Meme died mid-jump"];
         
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -96,91 +95,109 @@
             const g = audioCtx.createGain();
             o.connect(g); g.connect(audioCtx.destination);
             if (type === 'jump') {
-                o.type = 'sine'; o.frequency.setValueAtTime(680, audioCtx.currentTime);
-                g.gain.value = 0.5; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
-                o.start(); o.stop(audioCtx.currentTime + 0.2);
+                o.type = 'sine'; o.frequency.setValueAtTime(620, audioCtx.currentTime);
+                g.gain.value = 0.45; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+                o.start(); o.stop(audioCtx.currentTime + 0.25);
             } else if (type === 'coin') {
-                o.type = 'sine'; o.frequency.setValueAtTime(1100, audioCtx.currentTime);
-                setTimeout(() => o.frequency.setValueAtTime(1650, audioCtx.currentTime + 0.06), 40);
+                o.type = 'triangle'; o.frequency.setValueAtTime(1480, audioCtx.currentTime);
+                setTimeout(()=>o.frequency.setValueAtTime(2100,audioCtx.currentTime+0.05),40);
                 g.gain.value = 0.5; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
                 o.start(); o.stop(audioCtx.currentTime + 0.3);
-            } else if (type === 'hype') {
-                o.type = 'sawtooth'; o.frequency.setValueAtTime(440, audioCtx.currentTime);
-                g.gain.value = 0.4; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-                o.start(); o.stop(audioCtx.currentTime + 1.2);
+            } else if (type === 'stomp') {
+                o.type = 'sawtooth'; o.frequency.setValueAtTime(320, audioCtx.currentTime);
+                g.gain.value = 0.6; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+                o.start(); o.stop(audioCtx.currentTime + 0.35);
             } else if (type === 'hit') {
-                o.type = 'sawtooth'; o.frequency.setValueAtTime(280, audioCtx.currentTime);
-                g.gain.value = 0.8; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.7);
-                o.start(); o.stop(audioCtx.currentTime + 0.7);
+                o.type = 'sawtooth'; o.frequency.setValueAtTime(180, audioCtx.currentTime);
+                g.gain.value = 0.8; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+                o.start(); o.stop(audioCtx.currentTime + 0.8);
+            } else if (type === 'gween') {
+                o.type = 'sine'; o.frequency.setValueAtTime(880, audioCtx.currentTime);
+                g.gain.value = 0.4; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.9);
+                o.start(); o.stop(audioCtx.currentTime + 0.9);
             }
         }
         
-        function createParticle(x, y, color, life = 30) {
-            particles.push({x, y, vx: Math.random() * 6 - 3, vy: Math.random() * 6 - 5, color, life, size: Math.random() * 8 + 5});
+        function createParticle(x,y,color,life=40) {
+            particles.push({x,y,vx:Math.random()*7-3.5,vy:Math.random()*7-8,color,life});
+        }
+        
+        function generateChunk() {
+            let lastX = platforms.length ? platforms[platforms.length-1].x + platforms[platforms.length-1].w : 0;
+            for (let i = 0; i < 4; i++) {
+                let px = lastX + 80 + Math.random() * 120;
+                let py = 380 + Math.random() * 160;
+                let pw = 110 + Math.random() * 80;
+                platforms.push({x: px, y: py, w: pw});
+                lastX = px + pw;
+                
+                // Coin above
+                if (Math.random() < 0.7) coins.push({x: px + pw/2, y: py - 55, collected: false});
+                
+                // Enemy on platform
+                if (Math.random() < 0.45) {
+                    enemies.push({x: px + 20 + Math.random()*(pw-50), y: py - 38, dir:1});
+                }
+            }
         }
         
         function drawBG() {
-            ctx.fillStyle = '#112211';
-            ctx.fillRect(0, 0, W, H);
-            // Green court
-            ctx.fillStyle = '#00aa44';
-            ctx.fillRect(0, 380, W, 240);
-            // Lines
-            ctx.strokeStyle = '#ffff00';
-            ctx.lineWidth = 8;
-            ctx.beginPath();
-            ctx.moveTo(0, 420); ctx.lineTo(W, 420);
-            ctx.moveTo(0, 520); ctx.lineTo(W, 520);
-            ctx.stroke();
-            // Scrolling background trees/hills
+            ctx.fillStyle = '#113322';
+            ctx.fillRect(0,0,W,H);
+            
+            // Hills parallax
             ctx.fillStyle = '#006622';
-            for (let i = -1; i < 6; i++) {
-                let gx = ((frame * 1.2) % 140) + i * 140;
-                ctx.fillRect(gx, 320, 60, 80);
-            }
+            let hillScroll = (scroll * 0.3) % 300;
+            ctx.beginPath();
+            ctx.moveTo(-100 - hillScroll, 520);
+            ctx.quadraticCurveTo(80 - hillScroll, 380, 220 - hillScroll, 510);
+            ctx.quadraticCurveTo(340 - hillScroll, 340, 500 - hillScroll, 520);
+            ctx.lineTo(W + 100, H); ctx.lineTo(-100, H); ctx.fill();
         }
         
         function drawChicken() {
             ctx.save();
-            ctx.translate(playerX, 440);
-            ctx.scale(1.1, 1.1);
+            ctx.translate(player.x + 20, player.y + 22);
+            ctx.rotate(player.vy * 0.03);
             
-            // Body
             ctx.fillStyle = '#00cc44';
-            ctx.beginPath(); ctx.ellipse(0, 0, 26, 22, 0, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.ellipse(0, 4, 21, 18, 0, 0, Math.PI*2); ctx.fill(); // body
             
-            // Head
-            ctx.beginPath(); ctx.arc(22, -18, 14, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(19, -12, 13, 0, Math.PI*2); ctx.fill(); // head
             
-            // Beak
-            ctx.fillStyle = '#ffdd22';
-            ctx.beginPath(); ctx.moveTo(32, -18); ctx.lineTo(44, -16); ctx.lineTo(32, -12); ctx.fill();
+            ctx.fillStyle = '#ffdd00';
+            ctx.beginPath(); ctx.moveTo(28, -13); ctx.lineTo(40, -10); ctx.lineTo(28, -6); ctx.fill(); // beak
             
-            // Eye
-            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(27, -20, 6, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(29, -20, 3, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(24, -15, 5.5, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(26, -15, 2.5, 0, Math.PI*2); ctx.fill();
             
-            // Wings
             ctx.fillStyle = '#007722';
-            ctx.beginPath(); ctx.ellipse(-12, 4, 18, 11, Math.sin(frame / 5) * 0.4, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.ellipse(-8, 6, 15, 8, Math.sin(frame/4)*0.6, 0, Math.PI*2); ctx.fill(); // wing
             
             ctx.restore();
         }
         
-        function drawObstacle(o) {
-            ctx.fillStyle = '#cc2222';
-            ctx.fillRect(o.x - 22, 410, 44, 80); // fox / obstacle
-            ctx.fillStyle = '#aa1111';
-            ctx.fillRect(o.x - 28, 390, 56, 30); // head
+        function drawPlatform(p) {
+            ctx.fillStyle = '#aa7744';
+            ctx.fillRect(p.x - scroll, p.y, p.w, 26);
+            ctx.fillStyle = '#ddbb66';
+            ctx.fillRect(p.x - scroll, p.y - 6, p.w, 8);
         }
         
-        function drawCollectible(c) {
+        function drawEnemy(e) {
+            ctx.fillStyle = '#cc2222';
+            ctx.fillRect(e.x - scroll - 18, e.y, 36, 38);
+            ctx.fillStyle = '#aa1111';
+            ctx.fillRect(e.x - scroll - 22, e.y - 14, 44, 18); // head
+        }
+        
+        function drawCoin(c) {
             ctx.save();
-            ctx.translate(c.x, c.y + Math.sin(frame / 4) * 6);
+            ctx.translate(c.x - scroll, c.y + Math.sin(frame/5)*4);
             ctx.fillStyle = '#ffee11';
-            ctx.font = 'bold 42px sans-serif';
+            ctx.font = 'bold 38px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('🌿', 0, 0);
+            ctx.fillText('🌿', 0, 10);
             ctx.restore();
         }
         
@@ -188,131 +205,150 @@
             if (gameState !== 'playing') return;
             frame++;
             
-            // Lane lerp
-            playerX += (laneX[targetLane] - playerX) * 0.28;
+            // Auto run
+            scroll += scrollSpeed;
+            score += 0.12;
             
-            // Scroll
-            scrollSpeed = 2.8 + upgrades.speed * 0.6 + Math.min(frame / 800, 4.5);
+            // Gravity
+            player.vy += 0.72;
+            player.y += player.vy;
             
-            // Spawn
-            if (frame - lastSpawn > 38 - Math.min(frame / 90, 22)) {
-                lastSpawn = frame;
-                const rnd = Math.random();
-                const l = Math.floor(Math.random() * 3);
-                if (rnd < 0.65) {
-                    obstacles.push({lane: l, x: W + 40});
-                } else {
-                    collectibles.push({lane: l, x: W + 40, y: 380 + Math.random() * 80});
+            // Ground check
+            player.grounded = false;
+            for (let p of platforms) {
+                let px = p.x - scroll;
+                if (player.x + 20 > px && player.x - 20 < px + p.w &&
+                    player.y + 22 > p.y - 6 && player.y + 22 < p.y + 10 && player.vy >= 0) {
+                    player.y = p.y - 44;
+                    player.vy = 0;
+                    player.grounded = true;
+                    player.doubleReady = true;
                 }
             }
             
-            // Update obstacles
-            for (let i = obstacles.length - 1; i >= 0; i--) {
-                let o = obstacles[i];
-                o.x -= scrollSpeed;
-                if (o.x < -60) { obstacles.splice(i, 1); continue; }
+            // Fall death
+            if (player.y > H + 50) endGame();
+            
+            // Platforms cleanup & generate
+            if (platforms[0] && platforms[0].x - scroll < -200) platforms.shift();
+            if (coins[0] && coins[0].x - scroll < -100) coins.shift();
+            if (platforms.length < 12) generateChunk();
+            
+            // Enemies
+            for (let i = enemies.length-1; i >= 0; i--) {
+                let e = enemies[i];
+                e.x += e.dir * 1.6;
                 
-                if (o.lane === targetLane && Math.abs(o.x - playerX) < 42) {
-                    hitObstacle(i);
+                // Simple turn on edge (fake)
+                let onPlat = false;
+                for (let p of platforms) {
+                    if (e.x > p.x && e.x < p.x + p.w && Math.abs(e.y - p.y + 38) < 20) onPlat = true;
+                }
+                if (!onPlat) e.dir *= -1;
+                
+                let ex = e.x - scroll;
+                if (ex < -80) enemies.splice(i,1);
+                
+                // Collision
+                if (Math.abs((player.x) - ex) < 32 && Math.abs((player.y+10) - (e.y+10)) < 32) {
+                    if (player.vy > 0 && player.y + 10 < e.y) {
+                        // STOMP!
+                        playSound('stomp');
+                        combo++;
+                        score += 50 + combo * 20;
+                        enemies.splice(i,1);
+                        player.vy = -14; // bounce
+                        for(let k=0;k<28;k++) createParticle(ex+18, e.y+10, '#ff4488');
+                        
+                        if (combo % 4 === 0) triggerGween();
+                    } else {
+                        // Side hit = death
+                        endGame();
+                    }
                 }
             }
             
-            // Collectibles
-            for (let i = collectibles.length - 1; i >= 0; i--) {
-                let c = collectibles[i];
-                c.x -= scrollSpeed + 0.4;
-                
-                let dx = c.x - playerX;
-                let dy = c.y - 440;
-                if (c.lane === targetLane && Math.hypot(dx, dy) < 48 + upgrades.magnet * 14) {
+            // Coins
+            for (let i = coins.length-1; i >= 0; i--) {
+                let c = coins[i];
+                let cx = c.x - scroll;
+                if (!c.collected && Math.hypot(player.x - cx, player.y + 10 - c.y) < 38) {
+                    c.collected = true;
                     totalCoins++;
-                    score += 12 + combo * 3;
-                    combo++;
+                    score += 22;
                     playSound('coin');
-                    for (let k = 0; k < 18; k++) createParticle(c.x, c.y, '#ffee66', 32);
-                    
-                    if (combo % 8 === 0) triggerHype();
-                    
-                    collectibles.splice(i, 1);
+                    for(let k=0;k<12;k++) createParticle(cx, c.y, '#ffee44', 28);
+                    if (Math.random() < 0.3) triggerGween();
                 }
-                
-                if (c.x < -40) collectibles.splice(i, 1);
+                if (cx < -50) coins.splice(i,1);
             }
             
             // Particles
-            for (let i = particles.length - 1; i >= 0; i--) {
+            for (let i=particles.length-1; i>=0; i--) {
                 let p = particles[i];
-                p.x += p.vx; p.y += p.vy; p.vy += 0.22; p.life--;
-                if (p.life <= 0) particles.splice(i, 1);
+                p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.life--;
+                if (p.life <= 0) particles.splice(i,1);
             }
             
-            score += 0.18;
+            // Speed ramp
+            if (frame % 420 === 0) scrollSpeed = Math.min(scrollSpeed + 0.25, 7.2);
             
-            if (hypeTime > 0) hypeTime--;
+            // HUD update
+            document.getElementById('hud').innerHTML = `${Math.floor(score)}m ❤️`.repeat(lives);
         }
         
-        function triggerHype() {
-            hypeTime = 110;
-            playSound('hype');
-            document.getElementById('comboText').style.opacity = 1;
-            setTimeout(() => document.getElementById('comboText').style.opacity = 0, 1400);
-            for (let i = 0; i < 80; i++) {
-                createParticle(playerX + Math.random() * 80 - 40, 360 + Math.random() * 100, '#ffff00', 55);
-            }
-            score += 80;
-        }
-        
-        function hitObstacle(i) {
-            playSound('hit');
-            lives--;
-            for (let k = 0; k < 45; k++) createParticle(obstacles[i].x, 440, '#ff4444', 40);
-            obstacles.splice(i, 1);
-            
-            if (lives <= 0) {
-                endGame();
-            } else {
-                // short invincibility
-                setTimeout(() => {}, 800);
-            }
+        function triggerGween() {
+            playSound('gween');
+            const comboEl = document.getElementById('comboText');
+            comboEl.textContent = combo > 5 ? "SUPER GWEEN GWEEN!!!" : "GWEEN GWEEN CHICKEN!!!";
+            comboEl.style.opacity = 1;
+            setTimeout(() => comboEl.style.opacity = 0, 1200);
+            for (let i = 0; i < 70; i++) createParticle(player.x + Math.random()*60-30, player.y - 20, '#ffff44', 50);
         }
         
         function draw() {
             drawBG();
             
-            obstacles.forEach(o => drawObstacle(o));
-            collectibles.forEach(c => drawCollectible(c));
+            platforms.forEach(p => drawPlatform(p));
+            enemies.forEach(e => drawEnemy(e));
+            coins.forEach(c => { if (!c.collected) drawCoin(c); });
+            
             drawChicken();
             
-            // Particles
-            for (let p of particles) {
-                ctx.globalAlpha = p.life / 35;
+            ctx.globalAlpha = 0.85;
+            particles.forEach(p => {
                 ctx.fillStyle = p.color;
-                ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
-            }
+                let s = p.life / 40 * 9;
+                ctx.fillRect(p.x - scroll - s/2, p.y - s/2, s, s);
+            });
             ctx.globalAlpha = 1;
-            
-            // HUD
-            ctx.fillStyle = '#fff';
-            ctx.font = '900 52px Comic Neue';
-            ctx.textAlign = 'left';
-            ctx.fillText(Math.floor(score), 24, 68);
-            
-            // Lives
-            ctx.font = 'bold 32px sans-serif';
-            ctx.fillText('❤️'.repeat(lives), 24, 120);
-            
-            // Combo indicator
-            if (combo > 3) {
-                ctx.fillStyle = '#ffff00';
-                ctx.font = 'bold 26px Comic Neue';
-                ctx.fillText(combo + '× GWEEN!', 220, 68);
-            }
         }
         
         function loop() {
             update();
             draw();
             requestAnimationFrame(loop);
+        }
+        
+        function handleJump(e) {
+            if (gameState !== 'playing') return;
+            e.preventDefault();
+            touchStartTime = Date.now();
+            
+            const canJump = player.grounded || (upgrades.double > 0 && player.doubleReady);
+            
+            if (canJump) {
+                let jumpPower = -15.5 - upgrades.jump * 1.2;
+                player.vy = jumpPower;
+                player.grounded = false;
+                if (!player.grounded) player.doubleReady = false;
+                playSound('jump');
+                for(let i=0;i<11;i++) createParticle(player.x + 10, player.y + 38, '#aaffcc');
+            }
+        }
+        
+        function handleRelease() {
+            // Optional short jump boost - not needed for this simple version
         }
         
         function startGame() {
@@ -322,25 +358,36 @@
         }
         
         function reset() {
-            playerLane = 1; targetLane = 1; playerX = 200;
-            obstacles = []; collectibles = []; particles = [];
-            score = 0; combo = 0; lives = 3; scrollSpeed = 2.8;
-            frame = 0; lastSpawn = -40; hypeTime = 0;
+            scroll = 0;
+            scrollSpeed = 3.6;
+            score = 0;
+            lives = 3;
+            combo = 0;
+            player.y = 320;
+            player.vy = 0;
+            player.doubleReady = true;
+            platforms = [];
+            enemies = [];
+            coins = [];
+            particles = [];
+            frame = 0;
+            generateChunk(); generateChunk(); generateChunk();
         }
         
         function endGame() {
             gameState = 'over';
+            playSound('hit');
             document.getElementById('over').classList.add('active');
             let final = Math.floor(score);
-            document.getElementById('final').innerHTML = `GWEEN SCORE<br>${final}`;
-            document.getElementById('meme').textContent = deathMessages[Math.floor(Math.random() * deathMessages.length)];
+            document.getElementById('final').innerHTML = `FINAL RUN<br>${final}m`;
+            document.getElementById('meme').textContent = deathMessages[Math.floor(Math.random()*deathMessages.length)];
             
-            totalCoins += Math.floor(final / 3) + combo * 2;
+            totalCoins += Math.floor(final / 2.5) + combo * 3;
             localStorage.setItem('ggcCoins', totalCoins);
             
             if (final > highScore) {
                 highScore = final;
-                localStorage.setItem('ggcHS', highScore);
+                localStorage.setItem('ggcMarioHS', highScore);
             }
         }
         
@@ -357,24 +404,24 @@
         }
         
         function share() {
-            const text = `I just hit ${Math.floor(score)} in Green Green Chicken and screamed GWEEN GWEEN ${combo} times! 🐔🌿 Beat me at greengreenchicken.com`;
-            if (navigator.share) navigator.share({title: 'Green Green Chicken', text: text, url: 'https://greengreenchicken.com'});
-            else { navigator.clipboard.writeText(text); alert('✅ Copied! Paste on TikTok / IG / WhatsApp'); }
+            const text = `I ran ${Math.floor(score)}m in Super Green Green Chicken! Stomped ${combo} foxes & screamed GWEEN GWEEN! 🐔🌿 Beat me → greengreenchicken.com`;
+            if (navigator.share) navigator.share({title:'Super Green Green Chicken', text, url:'https://greengreenchicken.com'});
+            else { navigator.clipboard.writeText(text); alert('✅ Copied for TikTok/IG!'); }
         }
         
         function watchRewarded() {
-            alert("📺 Rewarded ad demo\n+150 bonus coins added!");
-            totalCoins += 150;
+            alert("📺 Rewarded ad demo\n+180 bonus coins!");
+            totalCoins += 180;
             localStorage.setItem('ggcCoins', totalCoins);
             updateUI();
         }
         
         function updateUI() {
-            document.getElementById('hs').textContent = `Best: ${highScore}`;
+            document.getElementById('hs').textContent = `Best Run: ${highScore}m`;
             document.getElementById('totalCoins').textContent = totalCoins;
             document.getElementById('shopCoins').textContent = `🪙 ${totalCoins}`;
-            document.getElementById('speedLv').textContent = upgrades.speed;
-            document.getElementById('magLv').textContent = upgrades.magnet;
+            document.getElementById('jumpLv').textContent = upgrades.jump;
+            document.getElementById('doubleLv').textContent = upgrades.double;
         }
         
         function showShop() {
@@ -389,53 +436,43 @@
             updateUI();
         }
         
-        function buySpeed() {
-            let cost = 55 + upgrades.speed * 35;
+        function buyJump() {
+            let cost = 65 + upgrades.jump * 40;
             if (totalCoins >= cost) {
                 totalCoins -= cost;
-                upgrades.speed++;
-                localStorage.setItem('ggcUpg', JSON.stringify(upgrades));
+                upgrades.jump++;
+                localStorage.setItem('ggcMarioUpg', JSON.stringify(upgrades));
                 localStorage.setItem('ggcCoins', totalCoins);
                 updateUI();
-            } else alert("Not enough coins! Keep collecting GWEEN! 🐔");
+            } else alert("Need more green coins! 🪙");
         }
         
-        function buyMagnet() {
-            let cost = 85 + upgrades.magnet * 60;
+        function buyDouble() {
+            let cost = 115 + upgrades.double * 70;
             if (totalCoins >= cost) {
                 totalCoins -= cost;
-                upgrades.magnet++;
-                localStorage.setItem('ggcUpg', JSON.stringify(upgrades));
+                upgrades.double++;
+                localStorage.setItem('ggcMarioUpg', JSON.stringify(upgrades));
                 localStorage.setItem('ggcCoins', totalCoins);
                 updateUI();
-            } else alert("Not enough coins 🪙");
+            } else alert("Keep stomping for coins! 🐔");
         }
         
-        function easterTap() {
-            if (Math.random() < 0.2) alert("🌈 GWEEN GWEEN DISCO MODE! (just kidding... for now 😎)");
-        }
+        // INPUT
+        canvas.addEventListener('touchstart', (e) => { handleJump(e); });
+        canvas.addEventListener('mousedown', (e) => { handleJump(e); });
+        canvas.addEventListener('touchend', handleRelease);
         
-        // INPUT - SUPER SIMPLE FOR KIDS
-        function handleTap(e) {
-            if (gameState !== 'playing') return;
-            e.preventDefault();
-            const tapX = e.touches ? e.touches[0].clientX : e.clientX;
-            const relX = tapX - canvas.getBoundingClientRect().left;
-            if (relX < W * 0.5) {
-                targetLane = Math.max(0, targetLane - 1);
-            } else {
-                targetLane = Math.min(2, targetLane + 1);
-            }
-        }
-        
-        canvas.addEventListener('touchstart', handleTap);
-        canvas.addEventListener('mousedown', handleTap);
-        
-        // Keyboard for desktop
         document.addEventListener('keydown', e => {
-            if (gameState !== 'playing') return;
-            if (e.key === 'ArrowLeft' || e.key === 'a') targetLane = Math.max(0, targetLane - 1);
-            if (e.key === 'ArrowRight' || e.key === 'd') targetLane = Math.min(2, targetLane + 1);
+            if (gameState === 'playing' && (e.key === ' ' || e.key === 'ArrowUp')) {
+                e.preventDefault();
+                if (player.grounded || (upgrades.double > 0 && player.doubleReady)) {
+                    player.vy = -15.5 - upgrades.jump * 1.2;
+                    player.grounded = false;
+                    if (!player.grounded) player.doubleReady = false;
+                    playSound('jump');
+                }
+            }
         });
         
         // Init
@@ -443,10 +480,10 @@
         loop();
         
         function resize() {
-            let ratio = W / H;
-            let cw = Math.min(window.innerWidth * 0.96, 440);
-            canvas.style.width = cw + 'px';
-            canvas.style.height = (cw / ratio) + 'px';
+            let ratio = W/H;
+            let cw = Math.min(window.innerWidth*0.96, 440);
+            canvas.style.width = cw+'px';
+            canvas.style.height = (cw/ratio)+'px';
         }
         window.addEventListener('resize', resize);
         resize();
