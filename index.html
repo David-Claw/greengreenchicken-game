@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Super Green Green Chicken 🐔🌿</title>
     <meta property="og:title" content="Super Green Green Chicken - Mario Style Meme Game!">
-    <meta property="og:description" content="GWEEN GWEEN! Jump, stomp foxes, collect green coins like Mario! Viral TikTok chicken fun!">
+    <meta property="og:description" content="GWEEN GWEEN! Jump like Mario, stomp foxes, collect green coins! The coolest viral chicken game ever!">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
         body { margin:0; background:#0a220a; font-family:'Comic Neue',sans-serif; overflow:hidden; touch-action:manipulation; }
         #container { position:relative; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; background:#0a220a; }
-        canvas { border:14px solid #00ff88; border-radius:24px; box-shadow:0 0 60px #00ff88; image-rendering:pixelated; background:#113311; }
-        .overlay { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,34,10,0.95); pointer-events:none; z-index:20; }
+        canvas { border:16px solid #00ff88; border-radius:28px; box-shadow:0 0 70px #00ff88, 0 0 30px #00aa66; image-rendering:pixelated; background:#113311; }
+        .overlay { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,34,10,0.96); pointer-events:none; z-index:30; }
         .overlay.active { display:flex; pointer-events:auto; }
-        h1 { font-size:3.4rem; margin:0 0 10px; text-shadow:6px 6px 0 #006600; line-height:1; }
-        p { font-size:1.6rem; margin:10px; text-shadow:2px 2px 4px #000; }
-        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:18px 50px; margin:12px; font-size:1.9rem; border-radius:999px; box-shadow:0 10px #006600; cursor:pointer; width:78%; max-width:320px; }
-        button:active { transform:translateY(6px); box-shadow:0 4px #006600; }
-        .hud { position:absolute; top:20px; left:20px; color:#fff; font-size:1.8rem; text-shadow:3px 3px #000; z-index:10; pointer-events:none; }
-        .combo { position:absolute; top:140px; left:50%; transform:translateX(-50%); font-size:3.2rem; color:#ffff00; text-shadow:5px 5px #006600; opacity:0; transition:opacity 0.4s; z-index:15; }
+        h1 { font-size:3.6rem; margin:0 0 12px; text-shadow:8px 8px 0 #006600; line-height:0.95; }
+        p { font-size:1.65rem; margin:12px; text-shadow:3px 3px 6px #000; }
+        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:20px 56px; margin:14px; font-size:2rem; border-radius:999px; box-shadow:0 14px #006600; cursor:pointer; width:78%; max-width:340px; }
+        button:active { transform:translateY(8px); box-shadow:0 6px #006600; }
+        .hud { position:absolute; top:18px; left:18px; color:#fff; font-size:2rem; text-shadow:4px 4px #000; z-index:20; pointer-events:none; }
+        .combo { position:absolute; top:110px; left:50%; transform:translateX(-50%); font-size:3.6rem; color:#ffff00; text-shadow:6px 6px #006600, -2px -2px #00ff88; opacity:0; transition:opacity 0.3s; z-index:25; pointer-events:none; }
+        .flash { position:absolute; inset:0; background:#ffff00; opacity:0; pointer-events:none; z-index:15; transition:opacity 0.15s; }
     </style>
 </head>
 <body>
@@ -28,9 +29,9 @@
         <!-- START -->
         <div id="start" class="overlay active">
             <h1>SUPER<br>GREEN GREEN<br>CHICKEN</h1>
-            <p style="font-size:2.6rem;margin:30px 0">🐔🌿 GWEEN GWEEN!</p>
-            <button onclick="startGame()">START GAME</button>
-            <div style="margin-top:40px;font-size:1.5rem">👆 TAP anywhere to JUMP<br>Hold longer = HIGHER jump!</div>
+            <p style="font-size:2.8rem;margin:30px 0">🐔🌿 GWEEN GWEEN!</p>
+            <button onclick="startGame()">START ADVENTURE!</button>
+            <div style="margin-top:40px;font-size:1.55rem">👆 TAP & HOLD to JUMP higher<br>Tap to stomp foxes like Mario!</div>
             <button onclick="showShop()" style="background:#77dd77;margin-top:50px">SHOP 🪙 <span id="totalCoins">0</span></button>
             <p id="hs" style="margin-top:20px">Best Run: 0m</p>
         </div>
@@ -38,8 +39,8 @@
         <!-- GAME OVER -->
         <div id="over" class="overlay">
             <h1 style="color:#ff3366">GAME OVER</h1>
-            <p id="final" style="font-size:2.6rem"></p>
-            <p id="meme" style="font-size:2rem;margin:25px 0 40px"></p>
+            <p id="final" style="font-size:2.8rem"></p>
+            <p id="meme" style="font-size:2.1rem;margin:30px 0 40px"></p>
             <button onclick="restart()">TRY AGAIN 🐔</button>
             <button onclick="share()">SHARE GWEEN! 📱</button>
             <button onclick="watchRewarded()">2× COINS (Ad) 🤑</button>
@@ -49,14 +50,15 @@
         <!-- SHOP -->
         <div id="shop" class="overlay">
             <h1>POWER-UP SHOP</h1>
-            <p id="shopCoins" style="font-size:2.5rem;margin-bottom:30px">🪙 0</p>
-            <button onclick="buyJump()" style="font-size:1.6rem">Higher Jump (70🪙) Lv.<span id="jumpLv">1</span></button>
-            <button onclick="buyDouble()" style="font-size:1.6rem">Double Jump (120🪙) Lv.<span id="doubleLv">0</span></button>
+            <p id="shopCoins" style="font-size:2.6rem;margin-bottom:30px">🪙 0</p>
+            <button onclick="buyJump()" style="font-size:1.65rem">Higher Jump (80🪙) Lv.<span id="jumpLv">1</span></button>
+            <button onclick="buyDouble()" style="font-size:1.65rem">Double Jump (140🪙) Lv.<span id="doubleLv">0</span></button>
             <button onclick="hideShop()" style="background:#cc4466;margin-top:40px">BACK TO WORLD</button>
         </div>
         
         <div class="hud" id="hud">0m ❤️❤️❤️</div>
         <div id="comboText" class="combo">GWEEN GWEEN!!!</div>
+        <div id="flash" class="flash"></div>
     </div>
 
     <script>
@@ -64,26 +66,29 @@
         const ctx = canvas.getContext('2d');
         let W = 400, H = 620;
         
-        // Mario-style vars
-        let player = {x: 120, y: 400, vy: 0, width: 42, height: 42, grounded: false, doubleReady: true};
+        let player = {x: 110, y: 380, vy: 0, width: 44, height: 44, grounded: false, doubleReady: true, anim: 0};
         let scroll = 0;
-        let scrollSpeed = 3.6;
+        let scrollSpeed = 3.8;
         let score = 0;
-        let highScore = +localStorage.getItem('ggcMarioHS') || 0;
+        let highScore = +localStorage.getItem('ggcSuperHS') || 0;
         let totalCoins = +localStorage.getItem('ggcCoins') || 0;
-        let upgrades = JSON.parse(localStorage.getItem('ggcMarioUpg')) || {jump:1, double:0};
+        let upgrades = JSON.parse(localStorage.getItem('ggcSuperUpg')) || {jump:1, double:0};
         let platforms = [];
         let enemies = [];
-        let coins = [];
+        let collectibles = [];
         let particles = [];
+        let clouds = [];
         let frame = 0;
         let lives = 3;
         let combo = 0;
         let gameState = 'start';
         let audioCtx = null;
-        let touchStartTime = 0;
+        let coyoteTime = 0;
+        let jumpBuffer = 0;
+        let isHoldingJump = false;
+        let holdStart = 0;
         
-        const deathMessages = ["Fell off the map! 😭","Fox got you sideways 🦊","GWEEN... not high enough","Hit a pipe!","Meme died mid-jump"];
+        const deathMessages = ["Fell off the world! 😭","Fox got you! 🦊","Not green enough!","Hit a pipe!","GWEEN... oops"];
         
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -95,109 +100,150 @@
             const g = audioCtx.createGain();
             o.connect(g); g.connect(audioCtx.destination);
             if (type === 'jump') {
-                o.type = 'sine'; o.frequency.setValueAtTime(620, audioCtx.currentTime);
-                g.gain.value = 0.45; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
-                o.start(); o.stop(audioCtx.currentTime + 0.25);
+                o.type = 'sine'; o.frequency.setValueAtTime(680, audioCtx.currentTime);
+                g.gain.value = 0.5; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.22);
+                o.start(); o.stop(audioCtx.currentTime + 0.22);
             } else if (type === 'coin') {
                 o.type = 'triangle'; o.frequency.setValueAtTime(1480, audioCtx.currentTime);
-                setTimeout(()=>o.frequency.setValueAtTime(2100,audioCtx.currentTime+0.05),40);
-                g.gain.value = 0.5; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                o.start(); o.stop(audioCtx.currentTime + 0.3);
+                setTimeout(()=>o.frequency.setValueAtTime(2100,audioCtx.currentTime+0.06),40);
+                g.gain.value = 0.55; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.32);
+                o.start(); o.stop(audioCtx.currentTime + 0.32);
             } else if (type === 'stomp') {
-                o.type = 'sawtooth'; o.frequency.setValueAtTime(320, audioCtx.currentTime);
-                g.gain.value = 0.6; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
-                o.start(); o.stop(audioCtx.currentTime + 0.35);
+                o.type = 'sawtooth'; o.frequency.setValueAtTime(340, audioCtx.currentTime);
+                g.gain.value = 0.65; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.38);
+                o.start(); o.stop(audioCtx.currentTime + 0.38);
             } else if (type === 'hit') {
-                o.type = 'sawtooth'; o.frequency.setValueAtTime(180, audioCtx.currentTime);
-                g.gain.value = 0.8; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-                o.start(); o.stop(audioCtx.currentTime + 0.8);
+                o.type = 'sawtooth'; o.frequency.setValueAtTime(160, audioCtx.currentTime);
+                g.gain.value = 0.85; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.75);
+                o.start(); o.stop(audioCtx.currentTime + 0.75);
             } else if (type === 'gween') {
-                o.type = 'sine'; o.frequency.setValueAtTime(880, audioCtx.currentTime);
-                g.gain.value = 0.4; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.9);
-                o.start(); o.stop(audioCtx.currentTime + 0.9);
+                o.type = 'sine'; o.frequency.setValueAtTime(920, audioCtx.currentTime);
+                g.gain.value = 0.45; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.1);
+                o.start(); o.stop(audioCtx.currentTime + 1.1);
             }
         }
         
-        function createParticle(x,y,color,life=40) {
-            particles.push({x,y,vx:Math.random()*7-3.5,vy:Math.random()*7-8,color,life});
+        function createParticle(x,y,color,life=42) {
+            particles.push({x,y,vx:Math.random()*8-4,vy:Math.random()*9-7,color,life});
         }
         
         function generateChunk() {
-            let lastX = platforms.length ? platforms[platforms.length-1].x + platforms[platforms.length-1].w : 0;
-            for (let i = 0; i < 4; i++) {
-                let px = lastX + 80 + Math.random() * 120;
-                let py = 380 + Math.random() * 160;
-                let pw = 110 + Math.random() * 80;
+            let lastX = platforms.length ? platforms[platforms.length-1].x + platforms[platforms.length-1].w : 300;
+            for (let i = 0; i < 5; i++) {
+                let px = lastX + 60 + Math.random() * 110;
+                let py = 340 + Math.random() * 140;
+                let pw = 120 + Math.random() * 70;
                 platforms.push({x: px, y: py, w: pw});
                 lastX = px + pw;
                 
-                // Coin above
-                if (Math.random() < 0.7) coins.push({x: px + pw/2, y: py - 55, collected: false});
-                
-                // Enemy on platform
-                if (Math.random() < 0.45) {
-                    enemies.push({x: px + 20 + Math.random()*(pw-50), y: py - 38, dir:1});
-                }
+                if (Math.random() < 0.75) collectibles.push({x: px + pw/2, y: py - 62, collected: false});
+                if (Math.random() < 0.55) enemies.push({x: px + 30 + Math.random()*(pw-60), y: py - 42, dir: (Math.random()<0.5?1:-1), bob:0});
             }
         }
         
         function drawBG() {
-            ctx.fillStyle = '#113322';
+            // Sky
+            const grad = ctx.createLinearGradient(0,0,0,H*0.7);
+            grad.addColorStop(0, '#66ffaa');
+            grad.addColorStop(1, '#228844');
+            ctx.fillStyle = grad;
             ctx.fillRect(0,0,W,H);
             
-            // Hills parallax
+            // Clouds
+            ctx.fillStyle = '#ffffff';
+            clouds.forEach(c => {
+                let cx = (c.x - scroll * 0.2) % (W+200) - 100;
+                ctx.globalAlpha = 0.9;
+                ctx.beginPath();
+                ctx.ellipse(cx, c.y, 42, 18, 0, 0, Math.PI*2);
+                ctx.ellipse(cx+28, c.y-8, 26, 14, 0, 0, Math.PI*2);
+                ctx.ellipse(cx-24, c.y-6, 22, 16, 0, 0, Math.PI*2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            
+            // Hills
             ctx.fillStyle = '#006622';
-            let hillScroll = (scroll * 0.3) % 300;
+            let hx = (scroll * 0.35) % 280;
             ctx.beginPath();
-            ctx.moveTo(-100 - hillScroll, 520);
-            ctx.quadraticCurveTo(80 - hillScroll, 380, 220 - hillScroll, 510);
-            ctx.quadraticCurveTo(340 - hillScroll, 340, 500 - hillScroll, 520);
-            ctx.lineTo(W + 100, H); ctx.lineTo(-100, H); ctx.fill();
+            ctx.moveTo(-100 - hx, 520);
+            ctx.quadraticCurveTo(80 - hx, 380, 240 - hx, 510);
+            ctx.quadraticCurveTo(380 - hx, 340, 520 - hx, 520);
+            ctx.lineTo(W+100, H); ctx.lineTo(-100, H); ctx.fill();
         }
         
         function drawChicken() {
+            let bob = player.grounded ? Math.sin(frame / 3) * 1.8 : 0;
+            let legAngle = player.grounded ? Math.sin(frame / 2) * 0.6 : 0;
+            
             ctx.save();
-            ctx.translate(player.x + 20, player.y + 22);
-            ctx.rotate(player.vy * 0.03);
+            ctx.translate(player.x + 22, player.y + 24 + bob);
+            ctx.rotate(player.vy * 0.028);
             
+            // Body
             ctx.fillStyle = '#00cc44';
-            ctx.beginPath(); ctx.ellipse(0, 4, 21, 18, 0, 0, Math.PI*2); ctx.fill(); // body
+            ctx.beginPath(); ctx.ellipse(0, 6, 23, 19, 0, 0, Math.PI*2); ctx.fill();
             
-            ctx.beginPath(); ctx.arc(19, -12, 13, 0, Math.PI*2); ctx.fill(); // head
+            // Head
+            ctx.beginPath(); ctx.arc(21, -14, 14, 0, Math.PI*2); ctx.fill();
             
-            ctx.fillStyle = '#ffdd00';
-            ctx.beginPath(); ctx.moveTo(28, -13); ctx.lineTo(40, -10); ctx.lineTo(28, -6); ctx.fill(); // beak
+            // Beak
+            ctx.fillStyle = '#ffdd22';
+            ctx.beginPath(); ctx.moveTo(32, -14); ctx.lineTo(46, -12); ctx.lineTo(32, -8); ctx.fill();
             
-            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(24, -15, 5.5, 0, Math.PI*2); ctx.fill();
-            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(26, -15, 2.5, 0, Math.PI*2); ctx.fill();
+            // Eye
+            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(26, -16, 6, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(28, -16, 3, 0, Math.PI*2); ctx.fill();
             
+            // Wing flap
             ctx.fillStyle = '#007722';
-            ctx.beginPath(); ctx.ellipse(-8, 6, 15, 8, Math.sin(frame/4)*0.6, 0, Math.PI*2); ctx.fill(); // wing
+            let wing = player.grounded ? Math.sin(frame / 4) * 0.8 : -0.4;
+            ctx.beginPath(); ctx.ellipse(-10, 8, 19, 10, wing, 0, Math.PI*2); ctx.fill();
+            
+            // Legs (running)
+            ctx.strokeStyle = '#ddbb00'; ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(-10, 22); ctx.lineTo(-14, 32 + legAngle*6);
+            ctx.moveTo(8, 22); ctx.lineTo(6, 32 - legAngle*6);
+            ctx.stroke();
             
             ctx.restore();
         }
         
         function drawPlatform(p) {
+            let px = p.x - scroll;
             ctx.fillStyle = '#aa7744';
-            ctx.fillRect(p.x - scroll, p.y, p.w, 26);
+            ctx.fillRect(px, p.y, p.w, 28);
             ctx.fillStyle = '#ddbb66';
-            ctx.fillRect(p.x - scroll, p.y - 6, p.w, 8);
+            ctx.fillRect(px, p.y - 8, p.w, 10);
+            // Grass
+            ctx.fillStyle = '#00dd44';
+            for (let i = 0; i < p.w; i += 12) {
+                ctx.fillRect(px + i, p.y - 12, 8, 14);
+            }
         }
         
         function drawEnemy(e) {
+            let px = e.x - scroll;
+            let bob = Math.sin(frame / 6) * 2;
             ctx.fillStyle = '#cc2222';
-            ctx.fillRect(e.x - scroll - 18, e.y, 36, 38);
+            ctx.fillRect(px - 19, e.y + bob, 38, 38);
             ctx.fillStyle = '#aa1111';
-            ctx.fillRect(e.x - scroll - 22, e.y - 14, 44, 18); // head
+            ctx.fillRect(px - 23, e.y - 14 + bob, 46, 20);
+            // Eyes
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(px - 12, e.y - 4 + bob, 8, 8);
+            ctx.fillRect(px + 4, e.y - 4 + bob, 8, 8);
         }
         
-        function drawCoin(c) {
+        function drawCollectible(c) {
+            let px = c.x - scroll;
             ctx.save();
-            ctx.translate(c.x - scroll, c.y + Math.sin(frame/5)*4);
+            ctx.translate(px, c.y + Math.sin(frame/4)*5);
             ctx.fillStyle = '#ffee11';
-            ctx.font = 'bold 38px sans-serif';
+            ctx.font = 'bold 42px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('🌿', 0, 10);
+            ctx.fillText('🌿', 0, 12);
             ctx.restore();
         }
         
@@ -205,120 +251,132 @@
             if (gameState !== 'playing') return;
             frame++;
             
-            // Auto run
             scroll += scrollSpeed;
-            score += 0.12;
+            score += 0.13;
             
-            // Gravity
-            player.vy += 0.72;
+            // Jump input
+            if (jumpBuffer > 0) jumpBuffer--;
+            coyoteTime = player.grounded ? 12 : Math.max(0, coyoteTime-1);
+            
+            let canJumpNow = coyoteTime > 0 || (upgrades.double > 0 && player.doubleReady);
+            
+            if (jumpBuffer > 0 && canJumpNow) {
+                let power = -16.5 - upgrades.jump * 1.4;
+                if (isHoldingJump && Date.now() - holdStart > 120) power -= 4; // hold bonus
+                player.vy = power;
+                player.grounded = false;
+                if (!player.grounded && upgrades.double > 0) player.doubleReady = false;
+                playSound('jump');
+                for(let i=0;i<14;i++) createParticle(player.x+12, player.y+38, '#aaffcc');
+                jumpBuffer = 0;
+                coyoteTime = 0;
+            }
+            
+            // Gravity & movement
+            player.vy += isHoldingJump && player.vy < 0 ? 0.42 : 0.78; // variable height
             player.y += player.vy;
             
-            // Ground check
+            // Grounded
             player.grounded = false;
             for (let p of platforms) {
                 let px = p.x - scroll;
-                if (player.x + 20 > px && player.x - 20 < px + p.w &&
-                    player.y + 22 > p.y - 6 && player.y + 22 < p.y + 10 && player.vy >= 0) {
-                    player.y = p.y - 44;
+                if (player.x + 18 > px && player.x - 18 < px + p.w &&
+                    player.y + 24 > p.y - 6 && player.y + 24 < p.y + 14 && player.vy >= 0) {
+                    player.y = p.y - 48;
                     player.vy = 0;
                     player.grounded = true;
                     player.doubleReady = true;
                 }
             }
             
-            // Fall death
-            if (player.y > H + 50) endGame();
+            if (player.y > H + 80) endGame();
             
-            // Platforms cleanup & generate
-            if (platforms[0] && platforms[0].x - scroll < -200) platforms.shift();
-            if (coins[0] && coins[0].x - scroll < -100) coins.shift();
-            if (platforms.length < 12) generateChunk();
+            // Generate
+            if (platforms.length < 14) generateChunk();
+            if (platforms[0] && platforms[0].x - scroll < -300) platforms.shift();
             
             // Enemies
-            for (let i = enemies.length-1; i >= 0; i--) {
+            for (let i = enemies.length-1; i>=0; i--) {
                 let e = enemies[i];
-                e.x += e.dir * 1.6;
-                
-                // Simple turn on edge (fake)
-                let onPlat = false;
-                for (let p of platforms) {
-                    if (e.x > p.x && e.x < p.x + p.w && Math.abs(e.y - p.y + 38) < 20) onPlat = true;
-                }
-                if (!onPlat) e.dir *= -1;
+                e.x += e.dir * 1.8;
+                e.bob = Math.sin(frame/5);
                 
                 let ex = e.x - scroll;
-                if (ex < -80) enemies.splice(i,1);
+                if (ex < -100) enemies.splice(i,1);
                 
-                // Collision
-                if (Math.abs((player.x) - ex) < 32 && Math.abs((player.y+10) - (e.y+10)) < 32) {
-                    if (player.vy > 0 && player.y + 10 < e.y) {
-                        // STOMP!
+                if (Math.abs(player.x - ex) < 36 && Math.abs(player.y - e.y) < 38) {
+                    if (player.vy > 0 && player.y + 12 < e.y) {
+                        // STOMP
                         playSound('stomp');
                         combo++;
-                        score += 50 + combo * 20;
+                        score += 60 + combo*25;
                         enemies.splice(i,1);
-                        player.vy = -14; // bounce
-                        for(let k=0;k<28;k++) createParticle(ex+18, e.y+10, '#ff4488');
-                        
-                        if (combo % 4 === 0) triggerGween();
+                        player.vy = -16;
+                        for(let k=0;k<32;k++) createParticle(ex+18, e.y+18, '#ff4488');
+                        if (combo % 5 === 0) triggerGween();
                     } else {
-                        // Side hit = death
                         endGame();
                     }
                 }
             }
             
-            // Coins
-            for (let i = coins.length-1; i >= 0; i--) {
-                let c = coins[i];
+            // Collectibles
+            for (let i=collectibles.length-1; i>=0; i--) {
+                let c = collectibles[i];
                 let cx = c.x - scroll;
-                if (!c.collected && Math.hypot(player.x - cx, player.y + 10 - c.y) < 38) {
+                if (!c.collected && Math.hypot(player.x - cx, player.y + 10 - c.y) < 40) {
                     c.collected = true;
                     totalCoins++;
-                    score += 22;
+                    score += 25;
                     playSound('coin');
-                    for(let k=0;k<12;k++) createParticle(cx, c.y, '#ffee44', 28);
-                    if (Math.random() < 0.3) triggerGween();
+                    for(let k=0;k<16;k++) createParticle(cx, c.y+8, '#ffee44', 32);
+                    if (Math.random() < 0.35) triggerGween();
                 }
-                if (cx < -50) coins.splice(i,1);
+                if (cx < -80) collectibles.splice(i,1);
             }
             
             // Particles
             for (let i=particles.length-1; i>=0; i--) {
                 let p = particles[i];
-                p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.life--;
+                p.x += p.vx; p.y += p.vy; p.vy += 0.28; p.life--;
                 if (p.life <= 0) particles.splice(i,1);
             }
             
             // Speed ramp
-            if (frame % 420 === 0) scrollSpeed = Math.min(scrollSpeed + 0.25, 7.2);
+            if (frame % 380 === 0) scrollSpeed = Math.min(scrollSpeed + 0.22, 7.8);
             
-            // HUD update
+            player.anim = (player.anim + 0.2) % 10;
             document.getElementById('hud').innerHTML = `${Math.floor(score)}m ❤️`.repeat(lives);
         }
         
         function triggerGween() {
             playSound('gween');
-            const comboEl = document.getElementById('comboText');
-            comboEl.textContent = combo > 5 ? "SUPER GWEEN GWEEN!!!" : "GWEEN GWEEN CHICKEN!!!";
-            comboEl.style.opacity = 1;
-            setTimeout(() => comboEl.style.opacity = 0, 1200);
-            for (let i = 0; i < 70; i++) createParticle(player.x + Math.random()*60-30, player.y - 20, '#ffff44', 50);
+            const el = document.getElementById('comboText');
+            el.textContent = combo > 6 ? "SUPER GWEEN GWEEN!!!" : "GWEEN GWEEN CHICKEN!!!";
+            el.style.opacity = 1;
+            setTimeout(() => el.style.opacity = 0, 1600);
+            
+            const flash = document.getElementById('flash');
+            flash.style.opacity = 0.35;
+            setTimeout(() => flash.style.opacity = 0, 180);
+            
+            for (let i = 0; i < 85; i++) {
+                createParticle(player.x + Math.random()*70-35, player.y - 30, '#ffff44', 58);
+            }
+            score += 90;
         }
         
         function draw() {
             drawBG();
-            
             platforms.forEach(p => drawPlatform(p));
             enemies.forEach(e => drawEnemy(e));
-            coins.forEach(c => { if (!c.collected) drawCoin(c); });
-            
+            collectibles.forEach(c => { if (!c.collected) drawCollectible(c); });
             drawChicken();
             
-            ctx.globalAlpha = 0.85;
+            ctx.globalAlpha = 0.88;
             particles.forEach(p => {
                 ctx.fillStyle = p.color;
-                let s = p.life / 40 * 9;
+                let s = p.life / 42 * 8;
                 ctx.fillRect(p.x - scroll - s/2, p.y - s/2, s, s);
             });
             ctx.globalAlpha = 1;
@@ -330,25 +388,15 @@
             requestAnimationFrame(loop);
         }
         
-        function handleJump(e) {
+        function startJump() {
             if (gameState !== 'playing') return;
-            e.preventDefault();
-            touchStartTime = Date.now();
-            
-            const canJump = player.grounded || (upgrades.double > 0 && player.doubleReady);
-            
-            if (canJump) {
-                let jumpPower = -15.5 - upgrades.jump * 1.2;
-                player.vy = jumpPower;
-                player.grounded = false;
-                if (!player.grounded) player.doubleReady = false;
-                playSound('jump');
-                for(let i=0;i<11;i++) createParticle(player.x + 10, player.y + 38, '#aaffcc');
-            }
+            isHoldingJump = true;
+            holdStart = Date.now();
+            jumpBuffer = 10;
         }
         
-        function handleRelease() {
-            // Optional short jump boost - not needed for this simple version
+        function endJump() {
+            isHoldingJump = false;
         }
         
         function startGame() {
@@ -358,20 +406,12 @@
         }
         
         function reset() {
-            scroll = 0;
-            scrollSpeed = 3.6;
-            score = 0;
-            lives = 3;
-            combo = 0;
-            player.y = 320;
-            player.vy = 0;
-            player.doubleReady = true;
-            platforms = [];
-            enemies = [];
-            coins = [];
-            particles = [];
-            frame = 0;
-            generateChunk(); generateChunk(); generateChunk();
+            scroll = 0; scrollSpeed = 3.8; score = 0; lives = 3; combo = 0;
+            player.y = 280; player.vy = 0; player.doubleReady = true;
+            platforms = []; enemies = []; collectibles = []; particles = [];
+            frame = 0; coyoteTime = 0; jumpBuffer = 0;
+            for (let i=0; i<6; i++) clouds.push({x: Math.random()*800, y: 80 + Math.random()*160});
+            generateChunk(); generateChunk(); generateChunk(); generateChunk();
         }
         
         function endGame() {
@@ -382,12 +422,12 @@
             document.getElementById('final').innerHTML = `FINAL RUN<br>${final}m`;
             document.getElementById('meme').textContent = deathMessages[Math.floor(Math.random()*deathMessages.length)];
             
-            totalCoins += Math.floor(final / 2.5) + combo * 3;
+            totalCoins += Math.floor(final / 2) + combo * 4;
             localStorage.setItem('ggcCoins', totalCoins);
             
             if (final > highScore) {
                 highScore = final;
-                localStorage.setItem('ggcMarioHS', highScore);
+                localStorage.setItem('ggcSuperHS', highScore);
             }
         }
         
@@ -404,14 +444,14 @@
         }
         
         function share() {
-            const text = `I ran ${Math.floor(score)}m in Super Green Green Chicken! Stomped ${combo} foxes & screamed GWEEN GWEEN! 🐔🌿 Beat me → greengreenchicken.com`;
+            const text = `I just ran ${Math.floor(score)}m in Super Green Green Chicken! Stomped ${combo} foxes & screamed GWEEN GWEEN! 🐔🌿 Beat me at greengreenchicken.com`;
             if (navigator.share) navigator.share({title:'Super Green Green Chicken', text, url:'https://greengreenchicken.com'});
-            else { navigator.clipboard.writeText(text); alert('✅ Copied for TikTok/IG!'); }
+            else { navigator.clipboard.writeText(text); alert('✅ Copied! Paste on TikTok/IG/WhatsApp'); }
         }
         
         function watchRewarded() {
-            alert("📺 Rewarded ad demo\n+180 bonus coins!");
-            totalCoins += 180;
+            alert("📺 Rewarded ad demo\n+200 bonus coins added!");
+            totalCoins += 200;
             localStorage.setItem('ggcCoins', totalCoins);
             updateUI();
         }
@@ -437,42 +477,41 @@
         }
         
         function buyJump() {
-            let cost = 65 + upgrades.jump * 40;
+            let cost = 75 + upgrades.jump * 45;
             if (totalCoins >= cost) {
-                totalCoins -= cost;
-                upgrades.jump++;
-                localStorage.setItem('ggcMarioUpg', JSON.stringify(upgrades));
-                localStorage.setItem('ggcCoins', totalCoins);
+                totalCoins -= cost; upgrades.jump++; saveProgress();
                 updateUI();
-            } else alert("Need more green coins! 🪙");
+            } else alert("Need more coins! Keep jumping 🐔");
         }
         
         function buyDouble() {
-            let cost = 115 + upgrades.double * 70;
+            let cost = 135 + upgrades.double * 80;
             if (totalCoins >= cost) {
-                totalCoins -= cost;
-                upgrades.double++;
-                localStorage.setItem('ggcMarioUpg', JSON.stringify(upgrades));
-                localStorage.setItem('ggcCoins', totalCoins);
+                totalCoins -= cost; upgrades.double++; saveProgress();
                 updateUI();
-            } else alert("Keep stomping for coins! 🐔");
+            } else alert("Keep collecting 🌿");
         }
         
-        // INPUT
-        canvas.addEventListener('touchstart', (e) => { handleJump(e); });
-        canvas.addEventListener('mousedown', (e) => { handleJump(e); });
-        canvas.addEventListener('touchend', handleRelease);
+        function saveProgress() {
+            localStorage.setItem('ggcSuperUpg', JSON.stringify(upgrades));
+            localStorage.setItem('ggcCoins', totalCoins);
+        }
+        
+        // INPUT - SUPER RELIABLE
+        canvas.addEventListener('pointerdown', startJump);
+        canvas.addEventListener('pointerup', endJump);
+        canvas.addEventListener('pointerleave', endJump);
         
         document.addEventListener('keydown', e => {
             if (gameState === 'playing' && (e.key === ' ' || e.key === 'ArrowUp')) {
                 e.preventDefault();
-                if (player.grounded || (upgrades.double > 0 && player.doubleReady)) {
-                    player.vy = -15.5 - upgrades.jump * 1.2;
-                    player.grounded = false;
-                    if (!player.grounded) player.doubleReady = false;
-                    playSound('jump');
-                }
+                jumpBuffer = 10;
+                isHoldingJump = true;
             }
+        });
+        
+        document.addEventListener('keyup', e => {
+            if (e.key === ' ' || e.key === 'ArrowUp') isHoldingJump = false;
         });
         
         // Init
@@ -481,9 +520,9 @@
         
         function resize() {
             let ratio = W/H;
-            let cw = Math.min(window.innerWidth*0.96, 440);
-            canvas.style.width = cw+'px';
-            canvas.style.height = (cw/ratio)+'px';
+            let cw = Math.min(window.innerWidth * 0.96, 460);
+            canvas.style.width = cw + 'px';
+            canvas.style.height = (cw / ratio) + 'px';
         }
         window.addEventListener('resize', resize);
         resize();
