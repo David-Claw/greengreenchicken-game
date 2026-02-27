@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Green Green Chicken 🐔🌿 - BOK BOK!</title>
     <meta property="og:title" content="Green Green Chicken - Viral Meme Game!">
-    <meta property="og:description" content="Flap the derpy green chicken forever! Can you beat 420? Share your score!">
-    <meta property="og:url" content="https://greengreenchicken.com">
-    <meta property="og:image" content="https://picsum.photos/id/237/1200/630"> <!-- Replace with real OG image later -->
+    <meta property="og:description" content="Flap the derpy green chicken forever! Can you beat 420?">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
         body { margin:0; background:#0a220a; font-family:'Comic Neue', system-ui; overflow:hidden; touch-action:manipulation; }
-        #container { position:relative; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }
-        canvas { border:12px solid #00ff88; border-radius:20px; box-shadow:0 0 40px #00ff88, inset 0 0 30px rgba(0,255,100,0.4); image-rendering:pixelated; }
-        .overlay { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,30,10,0.85); pointer-events:none; }
+        #container { position:relative; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; background:#0a220a; }
+        canvas { border:14px solid #00ff88; border-radius:24px; box-shadow:0 0 50px #00ff88, inset 0 0 40px rgba(0,255,120,0.3); image-rendering:pixelated; }
+        .overlay { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,34,10,0.94); pointer-events:none; z-index:10; }
         .overlay.active { display:flex; pointer-events:auto; }
-        h1 { font-size:3.2rem; margin:0 0 10px; text-shadow:4px 4px 0 #006600, -2px -2px 0 #006600; }
-        p { font-size:1.4rem; margin:8px; text-shadow:2px 2px 4px #000; }
-        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:16px 36px; margin:12px; font-size:1.6rem; border-radius:999px; box-shadow:0 8px #006600; cursor:pointer; transition:transform .1s; }
-        button:active { transform:translateY(6px); box-shadow:0 2px #006600; }
-        .ad-banner { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); width:90%; max-width:320px; height:60px; background:rgba(0,0,0,0.6); border:3px solid #00ff88; display:none; align-items:center; justify-content:center; font-size:0.9rem; color:#fff; }
+        h1 { font-size:3.6rem; margin:0 0 10px; text-shadow:6px 6px 0 #006600; line-height:1.05; cursor:pointer; }
+        p { font-size:1.6rem; margin:10px; text-shadow:2px 2px 4px #000; }
+        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:22px 60px; margin:16px; font-size:2.1rem; border-radius:999px; box-shadow:0 12px #006600; cursor:pointer; transition:all .08s; width:82%; max-width:340px; }
+        button:active { transform:translateY(8px); box-shadow:0 4px #006600; }
+        .hint { font-size:1.4rem; opacity:0.9; margin-top:12px; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
+        .overlay#shop { background:rgba(10,44,10,0.97); }
     </style>
 </head>
 <body>
@@ -28,34 +28,32 @@
         
         <!-- START SCREEN -->
         <div id="start" class="overlay active">
-            <h1 onclick="easterTap()" style="cursor:pointer">GREEN GREEN<br>CHICKEN</h1>
-            <p style="font-size:2.2rem;margin-bottom:30px">🐔🌿 BOK BOK BOK!</p>
+            <h1 onclick="easterTap()">GREEN GREEN<br>CHICKEN</h1>
+            <p style="font-size:2.6rem;margin-bottom:20px">🐔🌿 BOK BOK BOK!</p>
             <button onclick="startGame()">TAP TO CLUCK!</button>
-            <button onclick="showShop()">SHOP 🪙 <span id="totalCoins">0</span></button>
-            <p id="hs">High Score: 0</p>
-            <div style="position:absolute;bottom:30px;font-size:1.1rem;opacity:0.8">Made for the kids who spam TikTok 🥚</div>
+            <div class="hint">👆 TAP ANYWHERE TO START</div>
+            <button onclick="showShop()" style="background:#77dd77;font-size:1.6rem;padding:16px 50px;margin-top:30px">SHOP 🪙 <span id="totalCoins">0</span></button>
+            <p id="hs" style="margin-top:40px;font-size:1.4rem">High Score: 0</p>
         </div>
         
         <!-- GAME OVER -->
         <div id="over" class="overlay">
-            <h1 style="color:#ff3366">GAME OVER</h1>
-            <p id="final" style="font-size:2.4rem"></p>
-            <p id="meme" style="font-size:1.8rem;margin:20px 0 30px"></p>
+            <h1 style="color:#ff3366;font-size:3.2rem">GAME OVER</h1>
+            <p id="final" style="font-size:2.7rem;margin:8px 0 20px"></p>
+            <p id="meme" style="font-size:2rem;margin:10px 0 40px;min-height:58px"></p>
             <button onclick="restart()">FLAP AGAIN 🐔</button>
             <button onclick="share()">SHARE SCORE 📱</button>
             <button onclick="watchRewarded()">2× COINS (Ad) 🤑</button>
             <button onclick="menu()" style="background:#66aa66">MENU</button>
-            <div class="ad-banner" id="adBottom">★ GOOGLE ADSENSE BANNER SLOT ★<br><small>Replace with your AdSense code</small></div>
         </div>
         
         <!-- SHOP -->
-        <div id="shop" class="overlay" style="background:rgba(10,40,10,0.95)">
-            <h1>CHICKEN SHOP</h1>
-            <p id="shopCoins">🪙 0</p>
-            <button onclick="buyFlap()" id="flapBtn">Stronger Flap (50🪙) - Lv.<span id="flapLv">1</span></button>
-            <button onclick="buyMagnet()" id="magBtn">Coin Magnet (80🪙) - Lv.<span id="magLv">0</span></button>
-            <button onclick="hideShop()" style="background:#aa3366">CLOSE</button>
-            <p style="font-size:1rem;margin-top:30px">More skins & hats coming!</p>
+        <div id="shop" class="overlay">
+            <h1>CHICKEN SHOP 🛒</h1>
+            <p id="shopCoins" style="font-size:2.4rem;margin-bottom:30px">🪙 0</p>
+            <button onclick="buyFlap()" style="font-size:1.55rem;padding:18px">Stronger Flap (50🪙) Lv.<span id="flapLv">1</span></button>
+            <button onclick="buyMagnet()" style="font-size:1.55rem;padding:18px">Coin Magnet (80🪙) Lv.<span id="magLv">0</span></button>
+            <button onclick="hideShop()" style="background:#cc4466;margin-top:40px">CLOSE</button>
         </div>
     </div>
 
@@ -64,7 +62,7 @@
         const ctx = canvas.getContext('2d');
         let W = 400, H = 620;
         let player = {x: 110, y: 280, vy: 0, r: 24, angle: 0};
-        let gravity = 0.58, jump = -13.5;
+        let gravity = 0.56, jump = -14.2;
         let scrollSpeed = 3.2;
         let score = 0, highScore = +localStorage.getItem('ggcHS')||0;
         let totalCoins = +localStorage.getItem('ggcCoins')||0;
@@ -74,7 +72,8 @@
         let rage = 0, disco = false, discoTaps = 0;
         let gameState = 'start';
         let audioCtx = null;
-        let deathMessages = ["BOK BOK... TOO GREEN! 💀🌿","Fox ate the chicken! 🦊😭","Eggsploded mid-air! 🥚💥","Not green enough bro","Chicken got cooked! 🔥🐔","Meme died... try again!"];
+        
+        const deathMessages = ["BOK BOK... TOO GREEN! 💀🌿","Fox got you! 🦊","Eggsploded! 🥚💥","Chicken cooked 🔥","Not green enough bro","Meme died..."];
         
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
@@ -87,46 +86,42 @@
             o.connect(g); g.connect(audioCtx.destination);
             if (type==='flap') {
                 o.type='sawtooth'; o.frequency.setValueAtTime(920, audioCtx.currentTime);
-                g.gain.value=0.35; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.12);
-                o.start(); o.stop(audioCtx.currentTime+0.12);
+                g.gain.value=0.4; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.13);
+                o.start(); o.stop(audioCtx.currentTime+0.13);
             } else if (type==='coin') {
                 o.type='sine'; o.frequency.setValueAtTime(1320, audioCtx.currentTime);
-                setTimeout(()=>o.frequency.setValueAtTime(1980,audioCtx.currentTime+0.04),30);
-                g.gain.value=0.4; g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.25);
-                o.start(); o.stop(audioCtx.currentTime+0.25);
+                setTimeout(()=>o.frequency.setValueAtTime(1980,audioCtx.currentTime+0.05),40);
+                g.gain.value=0.45; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.28);
+                o.start(); o.stop(audioCtx.currentTime+0.28);
             } else if (type==='hit') {
-                o.type='sawtooth'; o.frequency.setValueAtTime(520, audioCtx.currentTime);
-                g.gain.value=0.6; g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.6);
-                o.start(); o.stop(audioCtx.currentTime+0.6);
+                o.type='sawtooth'; o.frequency.setValueAtTime(420, audioCtx.currentTime);
+                g.gain.value=0.7; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.55);
+                o.start(); o.stop(audioCtx.currentTime+0.55);
             } else if (type==='rage') {
                 o.type='triangle'; o.frequency.setValueAtTime(880, audioCtx.currentTime);
-                g.gain.value=0.3; g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.8);
-                o.start(); o.stop(audioCtx.currentTime+0.8);
+                g.gain.value=0.3; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.9);
+                o.start(); o.stop(audioCtx.currentTime+0.9);
             }
         }
         
         function createParticle(x,y,color,life=35) {
-            particles.push({x,y,vx:Math.random()*7-3.5,vy:Math.random()*7-6,color,life});
+            particles.push({x,y,vx:Math.random()*8-4,vy:Math.random()*8-7,color,life});
         }
         
         function drawBG() {
-            // Psychedelic sky
             const g = ctx.createLinearGradient(0,0,0,H);
-            g.addColorStop(0, disco?'#ff44ff':'#55ffaa');
-            g.addColorStop(1, disco?'#44ffff':'#22aa66');
-            ctx.fillStyle = g;
-            ctx.fillRect(0,0,W,H);
+            g.addColorStop(0, disco?'#ff44ff':'#66ffbb');
+            g.addColorStop(1, disco?'#44ffff':'#228844');
+            ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
             
-            // Parallax hills
             ctx.fillStyle = '#118833';
             ctx.beginPath();
             ctx.moveTo(-80,480); ctx.quadraticCurveTo(100,360,280,460); ctx.quadraticCurveTo(420,320,520,480);
-            ctx.lineTo(W, H); ctx.lineTo(0,H); ctx.fill();
+            ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.fill();
             
-            // Ground
             ctx.fillStyle = '#0a5511';
             ctx.fillRect(0,520,W,100);
-            // Scrolling grass
+            
             ctx.fillStyle = '#11aa33';
             for(let i=-1;i<9;i++){
                 let gx = (frame*3.8 % 55) + i*55;
@@ -140,50 +135,39 @@
             ctx.translate(player.x, player.y);
             ctx.rotate(player.angle);
             
-            // Body
             ctx.fillStyle = rage ? '#00ff66' : '#00cc44';
             ctx.beginPath(); ctx.ellipse(0,8,27,19,0,0,Math.PI*2); ctx.fill();
             
-            // Head
             ctx.beginPath(); ctx.arc(22,-11,15,0,Math.PI*2); ctx.fill();
             
-            // Beak
             ctx.fillStyle = '#ffdd00';
-            ctx.beginPath();
-            ctx.moveTo(34,-11); ctx.lineTo(48,-8); ctx.lineTo(34,-4); ctx.fill();
+            ctx.beginPath(); ctx.moveTo(34,-11); ctx.lineTo(48,-8); ctx.lineTo(34,-4); ctx.fill();
             
-            // Eye (derpy)
             ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(27,-13,6.5,0,Math.PI*2); ctx.fill();
             ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(29,-13,3,0,Math.PI*2); ctx.fill();
             
-            // Wing flap
             let wing = Math.sin(frame/3)*0.7 - (player.vy>0?0.3:-0.4);
             ctx.fillStyle = '#007722';
             ctx.beginPath(); ctx.ellipse(-9,12,19,9,wing,0,Math.PI*2); ctx.fill();
             
-            // Legs
             ctx.strokeStyle = '#ddbb00'; ctx.lineWidth=5;
             ctx.beginPath();
             ctx.moveTo(-8,22); ctx.lineTo(-14,35);
             ctx.moveTo(8,22); ctx.lineTo(4,34);
             ctx.stroke();
-            
             ctx.restore();
         }
         
         function drawObstacle(o) {
-            // Top fox tower
             ctx.fillStyle = '#cc2222';
             ctx.fillRect(o.x, 0, 58, o.top);
             ctx.fillStyle = '#aa1111';
-            ctx.fillRect(o.x+8, o.top-35, 42, 38); // fox head
+            ctx.fillRect(o.x+8, o.top-35, 42, 38);
             
-            // Eyes on fox
             ctx.fillStyle = '#fff';
             ctx.fillRect(o.x+16, o.top-22, 7, 8);
             ctx.fillRect(o.x+32, o.top-22, 7, 8);
             
-            // Bottom tower
             ctx.fillStyle = '#cc2222';
             ctx.fillRect(o.x, o.bottom, 58, H-o.bottom+10);
         }
@@ -192,10 +176,10 @@
             ctx.save();
             ctx.translate(c.x, c.y);
             ctx.rotate(Math.sin(frame/6)*0.4);
-            ctx.fillStyle = '#ffee11';
-            ctx.font = 'bold 34px sans-serif';
+            ctx.font = 'bold 36px sans-serif';
             ctx.textAlign='center';
             ctx.textBaseline='middle';
+            ctx.fillStyle = '#ffee11';
             ctx.fillText('🌿',0,4);
             ctx.restore();
         }
@@ -204,33 +188,26 @@
             if (gameState !== 'playing') return;
             frame++;
             
-            // Physics
             player.vy += gravity;
             player.y += player.vy;
             player.angle = Math.max(Math.min(player.vy*0.055, 1.1), -0.9);
             
-            // Death bounds
             if (player.y < 20 || player.y > 510) endGame();
             
-            // Spawn
             if (frame - lastSpawn > 72 - Math.min(score/12, 32)) {
                 const gap = 168;
                 let topH = 70 + Math.random()*(H - gap - 220);
                 obstacles.push({x:W+20, top:topH, bottom:topH+gap, passed:false});
                 lastSpawn = frame;
-                
-                // Coin in gap
-                if (Math.random() < 0.75) collectibles.push({x:W+90, y:topH + gap/2 + (Math.random()-0.5)*50});
+                if (Math.random() < 0.78) collectibles.push({x:W+92, y:topH + gap/2 + (Math.random()-0.5)*48});
             }
             
-            // Update obstacles
             for (let i=obstacles.length-1; i>=0; i--) {
                 let o = obstacles[i];
-                o.x -= scrollSpeed + (rage?1.2:0);
+                o.x -= scrollSpeed + (rage?1.3:0);
                 
-                if (!o.passed && o.x+58 < player.x) { o.passed=true; score+=15; greenMeter=Math.min(100,greenMeter+11); }
+                if (!o.passed && o.x+58 < player.x) { o.passed=true; score+=15; greenMeter=Math.min(100,greenMeter+12); }
                 
-                // Collision
                 if (player.x + player.r > o.x && player.x - player.r < o.x+58) {
                     if (player.y - player.r < o.top || player.y + player.r > o.bottom) endGame();
                 }
@@ -238,89 +215,70 @@
                 if (o.x < -80) obstacles.splice(i,1);
             }
             
-            // Collectibles
             for (let i=collectibles.length-1; i>=0; i--) {
                 let c = collectibles[i];
-                c.x -= scrollSpeed + 0.6;
+                c.x -= scrollSpeed + 0.7;
                 
                 let d = Math.hypot(c.x-player.x, c.y-player.y);
-                if (d < 38 + upgrades.magnet*9) {
-                    c.x = player.x + (c.x-player.x)*0.7; // magnet pull
-                    c.y = player.y + (c.y-player.y)*0.7;
+                if (d < 38 + upgrades.magnet*11) {
+                    c.x += (player.x - c.x) * 0.68;
+                    c.y += (player.y - c.y) * 0.68;
                 }
                 
                 if (d < 32) {
                     collectibles.splice(i,1);
-                    totalCoins++;
-                    score += 8;
-                    greenMeter = Math.min(100, greenMeter+18);
+                    totalCoins++; score += 9; greenMeter = Math.min(100, greenMeter+19);
                     playSound('coin');
-                    for(let k=0;k<14;k++) createParticle(c.x,c.y,'#ffee44');
+                    for(let k=0;k<16;k++) createParticle(c.x,c.y,'#ffee44',28);
                 }
-                
-                if (c.x < -30) collectibles.splice(i,1);
+                if (c.x < -40) collectibles.splice(i,1);
             }
             
-            // Rage mode
             if (greenMeter >= 100 && rage===0) {
-                rage = 240; // 4 seconds @60fps
-                playSound('rage');
-                scrollSpeed = 5.1;
+                rage = 260; playSound('rage'); scrollSpeed = 5.3;
             }
-            if (rage > 0) {
-                rage--;
-                if (rage===0) scrollSpeed = 3.2;
-            }
+            if (rage > 0) { rage--; if (rage===0) scrollSpeed = 3.2; }
             
-            // Particles
             for(let i=particles.length-1;i>=0;i--){
                 let p=particles[i];
-                p.x+=p.vx; p.y+=p.vy; p.vy+=0.25; p.life--;
+                p.x+=p.vx; p.y+=p.vy; p.vy+=0.26; p.life--;
                 if(p.life<=0) particles.splice(i,1);
             }
             
-            // Difficulty ramp
-            if (frame%280===0 && scrollSpeed<5.8) scrollSpeed += 0.18;
-            
-            score += 0.2; // distance
+            if (frame%260===0 && scrollSpeed<5.9) scrollSpeed += 0.19;
+            score += 0.22;
         }
         
         function draw() {
             drawBG();
-            
             obstacles.forEach(o=>drawObstacle(o));
             collectibles.forEach(c=>drawCollectible(c));
-            
             drawChicken();
             
-            // Particles
-            ctx.globalAlpha = 0.9;
+            ctx.globalAlpha = 0.92;
             for (let p of particles) {
                 ctx.fillStyle = p.color;
-                let s = p.life/35*7;
+                let s = p.life/35*8;
                 ctx.fillRect(p.x-s/2, p.y-s/2, s, s);
             }
             ctx.globalAlpha=1;
             
-            // HUD
             ctx.fillStyle = '#fff';
-            ctx.font = '900 42px Comic Neue';
+            ctx.font = '900 46px Comic Neue';
             ctx.textAlign = 'left';
-            ctx.fillText(Math.floor(score), 26, 62);
+            ctx.fillText(Math.floor(score), 28, 66);
             
-            // Green meter
             ctx.fillStyle = '#113311';
-            ctx.fillRect(28,78,172,22);
+            ctx.fillRect(28,80,178,24);
             ctx.fillStyle = rage ? '#ffff00' : '#00ff99';
-            ctx.fillRect(28,78,172*(greenMeter/100),22);
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 6;
-            ctx.strokeRect(28,78,172,22);
-            ctx.font = 'bold 15px sans-serif';
-            ctx.fillText('GREEN POWER', 36, 118);
+            ctx.fillRect(28,80,178*(greenMeter/100),24);
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 7;
+            ctx.strokeRect(28,80,178,24);
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText('GREEN POWER', 38, 122);
             
             if (rage>0) {
-                ctx.fillStyle = `rgba(255,255,0,${rage%16<8?0.6:0})`;
+                ctx.fillStyle = `rgba(255,255,100,${rage%14<7?0.7:0})`;
                 ctx.fillRect(0,0,W,H);
             }
         }
@@ -331,12 +289,12 @@
             requestAnimationFrame(loop);
         }
         
-        function flap(e) {
+        function flap() {
             if (gameState!=='playing') return;
             initAudio();
-            player.vy = jump - upgrades.flap*0.9;
+            player.vy = jump - upgrades.flap*0.95;
             playSound('flap');
-            for(let i=0;i<8;i++) createParticle(player.x-18, player.y+14, '#aaffbb',22);
+            for(let i=0;i<9;i++) createParticle(player.x-20, player.y+16, '#aaffcc',24);
         }
         
         function startGame() {
@@ -346,10 +304,10 @@
         }
         
         function reset() {
-            player.y = 260; player.vy = -6;
+            player.y = 260; player.vy = -7;
             obstacles = []; collectibles = []; particles = [];
             score = 0; greenMeter = 0; rage = 0; scrollSpeed = 3.2;
-            frame = 0; lastSpawn = -60;
+            frame = 0; lastSpawn = -80;
         }
         
         function endGame() {
@@ -357,10 +315,10 @@
             playSound('hit');
             document.getElementById('over').classList.add('active');
             let finalScore = Math.floor(score);
-            document.getElementById('final').innerHTML = `SCORE: ${finalScore}<br>COINS +${Math.floor(finalScore/4)}`;
+            document.getElementById('final').innerHTML = `SCORE: ${finalScore}<br>COINS +${Math.floor(finalScore/3.8)}`;
             document.getElementById('meme').textContent = deathMessages[Math.floor(Math.random()*deathMessages.length)];
             
-            totalCoins += Math.floor(finalScore/4);
+            totalCoins += Math.floor(finalScore/3.8);
             localStorage.setItem('ggcCoins', totalCoins);
             
             if (finalScore > highScore) {
@@ -368,41 +326,30 @@
                 localStorage.setItem('ggcHS', highScore);
             }
             
-            // Death explosion
-            for(let i=0;i<55;i++) {
-                createParticle(player.x+Math.random()*40-20, player.y+Math.random()*40-20, '#ffdd88', 55);
-            }
-            document.getElementById('adBottom').style.display = 'flex';
+            for(let i=0;i<62;i++) createParticle(player.x+Math.random()*44-22, player.y+Math.random()*44-22, '#ffdd99', 62);
         }
         
         function restart() {
             document.getElementById('over').classList.remove('active');
-            document.getElementById('adBottom').style.display = 'none';
             reset();
             gameState = 'playing';
         }
         
         function menu() {
             document.getElementById('over').classList.remove('active');
-            document.getElementById('adBottom').style.display = 'none';
             document.getElementById('start').classList.add('active');
             updateUI();
         }
         
         function share() {
-            const text = `I just hit ${Math.floor(score)} in Green Green Chicken! 🐔🌿 BOK BOK GREEN GREEN! Beat me at greengreenchicken.com`;
-            if (navigator.share) {
-                navigator.share({title:'Green Green Chicken', text:text, url:'https://greengreenchicken.com'});
-            } else {
-                navigator.clipboard.writeText(text);
-                alert('✅ Score copied to clipboard! Paste on TikTok / IG / WhatsApp');
-            }
+            const text = `I just smashed ${Math.floor(score)} in Green Green Chicken! 🐔🌿 BOK BOK GREEN GREEN! Can you beat me? greengreenchicken.com`;
+            if (navigator.share) navigator.share({title:'Green Green Chicken', text, url:'https://greengreenchicken.com'});
+            else { navigator.clipboard.writeText(text); alert('✅ Score copied! Paste on TikTok/IG/WhatsApp'); }
         }
         
         function watchRewarded() {
-            // Placeholder - replace with real rewarded AdSense / AdMob
-            alert("📺 Rewarded ad would play here!\n\n+100 bonus coins added (demo)");
-            totalCoins += 100;
+            alert("📺 Rewarded ad would play here!\n\nDemo: +120 bonus coins added");
+            totalCoins += 120;
             localStorage.setItem('ggcCoins', totalCoins);
             updateUI();
         }
@@ -428,74 +375,64 @@
         }
         
         function buyFlap() {
-            let cost = 40 + upgrades.flap * 30;
+            let cost = 45 + upgrades.flap * 32;
             if (totalCoins >= cost) {
-                totalCoins -= cost;
-                upgrades.flap++;
-                localStorage.setItem('ggcUpg', JSON.stringify(upgrades));
-                localStorage.setItem('ggcCoins', totalCoins);
+                totalCoins -= cost; upgrades.flap++; localStorage.setItem('ggcUpg', JSON.stringify(upgrades)); localStorage.setItem('ggcCoins', totalCoins);
                 updateUI();
-            } else alert("Not enough coins! Keep flapping! 🐔");
+            } else alert("Not enough coins yet! Keep flapping 🐔");
         }
         
         function buyMagnet() {
-            let cost = 70 + upgrades.magnet * 50;
+            let cost = 75 + upgrades.magnet * 55;
             if (totalCoins >= cost) {
-                totalCoins -= cost;
-                upgrades.magnet++;
-                localStorage.setItem('ggcUpg', JSON.stringify(upgrades));
-                localStorage.setItem('ggcCoins', totalCoins);
+                totalCoins -= cost; upgrades.magnet++; localStorage.setItem('ggcUpg', JSON.stringify(upgrades)); localStorage.setItem('ggcCoins', totalCoins);
                 updateUI();
-            } else alert("Not enough coins! 🪙");
+            } else alert("Not enough coins 🪙");
         }
         
         function easterTap() {
             discoTaps++;
             if (discoTaps >= 8) {
-                disco = !disco;
-                discoTaps = 0;
-                alert(disco ? "🌈 DISCO MODE ACTIVATED! Neon chicken time!" : "Normal mode restored");
+                disco = !disco; discoTaps = 0;
+                alert(disco ? "🌈 DISCO MODE ON! Neon chicken activated!" : "Back to normal green");
             }
         }
         
-        // Input
+        // INPUT
         function handleInput(e) {
             e.preventDefault();
-            if (gameState === 'start') startGame();
-            else if (gameState === 'playing') flap();
+            if (gameState === 'playing') flap();
         }
         
         canvas.addEventListener('touchstart', handleInput);
         canvas.addEventListener('mousedown', handleInput);
         
+        // === FIXED START SCREEN: TAP ANYWHERE ===
+        const startScreen = document.getElementById('start');
+        startScreen.addEventListener('touchstart', (e) => {
+            if (e.target.tagName !== 'BUTTON' && gameState === 'start') startGame();
+        });
+        startScreen.addEventListener('mousedown', (e) => {
+            if (e.target.tagName !== 'BUTTON' && gameState === 'start') startGame();
+        });
+        
         document.addEventListener('keydown', e => {
-            if (e.key === ' ' || e.key === 'Spacebar') {
-                e.preventDefault();
-                if (gameState === 'playing') flap();
-                else if (gameState === 'start') startGame();
-            }
+            if (e.key === ' ' && gameState === 'playing') flap();
+            if (e.key === ' ' && gameState === 'start') startGame();
         });
         
         // Init
         updateUI();
         loop();
         
-        // Responsive
         function resizeCanvas() {
             let ratio = W/H;
-            let cw = Math.min(window.innerWidth*0.96, 420);
+            let cw = Math.min(window.innerWidth * 0.96, 440);
             canvas.style.width = cw + 'px';
             canvas.style.height = (cw / ratio) + 'px';
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-        
-        // AdSense ready placeholder (replace YOUR_CLIENT_ID)
-        /*
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_CLIENT_ID" crossorigin="anonymous"></script>
-        Then place <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR_CLIENT_ID" data-ad-slot="YOUR_SLOT" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        */
     </script>
 </body>
 </html>
