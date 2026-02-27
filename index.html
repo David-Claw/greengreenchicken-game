@@ -3,46 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Green Green Chicken 🐔🌿 - BOK BOK!</title>
-    <meta property="og:title" content="Green Green Chicken - Viral Meme Game!">
-    <meta property="og:description" content="Flap the derpy green chicken forever! Can you beat 420?">
+    <title>Green Green Chicken 🐔🌿 GWEEN GWEEN!</title>
+    <meta property="og:title" content="Green Green Chicken - GWEEN GWEEN!">
+    <meta property="og:description" content="The viral TikTok meme game! Tap sides to switch lanes, collect GREEN, scream GWEEN GWEEN CHICKEN!">
+    <meta property="og:image" content="https://picsum.photos/id/237/1200/630">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
         body { margin:0; background:#0a220a; font-family:'Comic Neue', system-ui; overflow:hidden; touch-action:manipulation; }
         #container { position:relative; width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; background:#0a220a; }
-        canvas { border:14px solid #00ff88; border-radius:24px; box-shadow:0 0 50px #00ff88, inset 0 0 40px rgba(0,255,120,0.3); image-rendering:pixelated; }
+        canvas { border:14px solid #00ff88; border-radius:24px; box-shadow:0 0 50px #00ff88; image-rendering:pixelated; background:#112211; }
         .overlay { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; background:rgba(10,34,10,0.94); pointer-events:none; z-index:10; }
         .overlay.active { display:flex; pointer-events:auto; }
-        h1 { font-size:3.6rem; margin:0 0 10px; text-shadow:6px 6px 0 #006600; line-height:1.05; cursor:pointer; }
-        p { font-size:1.6rem; margin:10px; text-shadow:2px 2px 4px #000; }
-        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:22px 60px; margin:16px; font-size:2.1rem; border-radius:999px; box-shadow:0 12px #006600; cursor:pointer; transition:all .08s; width:82%; max-width:340px; }
-        button:active { transform:translateY(8px); box-shadow:0 4px #006600; }
-        .hint { font-size:1.4rem; opacity:0.9; margin-top:12px; animation:pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
-        .overlay#shop { background:rgba(10,44,10,0.97); }
+        h1 { font-size:3.8rem; margin:0 0 8px; text-shadow:6px 6px 0 #006600; line-height:1.05; }
+        p { font-size:1.7rem; margin:8px; text-shadow:2px 2px 4px #000; }
+        button { font-family:'Comic Neue',sans-serif; background:#00ff88; color:#003300; border:none; padding:20px 50px; margin:14px; font-size:2rem; border-radius:999px; box-shadow:0 12px #006600; cursor:pointer; width:80%; max-width:340px; }
+        button:active { transform:translateY(6px); box-shadow:0 4px #006600; }
+        .combo { position:absolute; top:120px; left:50%; transform:translateX(-50%); font-size:3rem; color:#ffff00; text-shadow:4px 4px #006600; pointer-events:none; opacity:0; transition:opacity .3s; }
     </style>
 </head>
 <body>
     <div id="container">
         <canvas id="c" width="400" height="620"></canvas>
         
-        <!-- START SCREEN -->
+        <!-- START -->
         <div id="start" class="overlay active">
             <h1 onclick="easterTap()">GREEN GREEN<br>CHICKEN</h1>
-            <p style="font-size:2.6rem;margin-bottom:20px">🐔🌿 BOK BOK BOK!</p>
-            <button onclick="startGame()">TAP TO CLUCK!</button>
-            <div class="hint">👆 TAP ANYWHERE TO START</div>
-            <button onclick="showShop()" style="background:#77dd77;font-size:1.6rem;padding:16px 50px;margin-top:30px">SHOP 🪙 <span id="totalCoins">0</span></button>
-            <p id="hs" style="margin-top:40px;font-size:1.4rem">High Score: 0</p>
+            <p style="font-size:2.8rem;margin:20px 0">GWEEN GWEEN! 🐔🌿</p>
+            <button onclick="startGame()">TAP TO START!</button>
+            <div style="font-size:1.5rem;margin-top:30px">👈 TAP LEFT / RIGHT 👉<br>to switch lanes</div>
+            <button onclick="showShop()" style="background:#77dd77;font-size:1.7rem;margin-top:40px">SHOP 🪙 <span id="totalCoins">0</span></button>
+            <p id="hs" style="margin-top:20px;font-size:1.5rem">Best: 0</p>
         </div>
         
         <!-- GAME OVER -->
         <div id="over" class="overlay">
-            <h1 style="color:#ff3366;font-size:3.2rem">GAME OVER</h1>
-            <p id="final" style="font-size:2.7rem;margin:8px 0 20px"></p>
-            <p id="meme" style="font-size:2rem;margin:10px 0 40px;min-height:58px"></p>
-            <button onclick="restart()">FLAP AGAIN 🐔</button>
-            <button onclick="share()">SHARE SCORE 📱</button>
+            <h1 style="color:#ff3366">GAME OVER</h1>
+            <p id="final" style="font-size:2.8rem"></p>
+            <p id="meme" style="font-size:2.1rem;margin:30px 0"></p>
+            <button onclick="restart()">PLAY AGAIN 🐔</button>
+            <button onclick="share()">SHARE GWEEN GWEEN 📱</button>
             <button onclick="watchRewarded()">2× COINS (Ad) 🤑</button>
             <button onclick="menu()" style="background:#66aa66">MENU</button>
         </div>
@@ -50,33 +49,45 @@
         <!-- SHOP -->
         <div id="shop" class="overlay">
             <h1>CHICKEN SHOP 🛒</h1>
-            <p id="shopCoins" style="font-size:2.4rem;margin-bottom:30px">🪙 0</p>
-            <button onclick="buyFlap()" style="font-size:1.55rem;padding:18px">Stronger Flap (50🪙) Lv.<span id="flapLv">1</span></button>
-            <button onclick="buyMagnet()" style="font-size:1.55rem;padding:18px">Coin Magnet (80🪙) Lv.<span id="magLv">0</span></button>
-            <button onclick="hideShop()" style="background:#cc4466;margin-top:40px">CLOSE</button>
+            <p id="shopCoins" style="font-size:2.6rem">🪙 0</p>
+            <button onclick="buySpeed()" style="font-size:1.6rem">Faster Run (60🪙) Lv.<span id="speedLv">1</span></button>
+            <button onclick="buyMagnet()" style="font-size:1.6rem">Coin Magnet (90🪙) Lv.<span id="magLv">0</span></button>
+            <button onclick="hideShop()" style="background:#cc4466;margin-top:50px">CLOSE</button>
         </div>
+        
+        <div id="comboText" class="combo">GWEEN GWEEN CHICKEN!!!</div>
     </div>
 
     <script>
         const canvas = document.getElementById('c');
         const ctx = canvas.getContext('2d');
         let W = 400, H = 620;
-        let player = {x: 110, y: 280, vy: 0, r: 24, angle: 0};
-        let gravity = 0.56, jump = -14.2;
-        let scrollSpeed = 3.2;
-        let score = 0, highScore = +localStorage.getItem('ggcHS')||0;
-        let totalCoins = +localStorage.getItem('ggcCoins')||0;
-        let upgrades = JSON.parse(localStorage.getItem('ggcUpg'))||{flap:1, magnet:0};
-        let obstacles = [], collectibles = [], particles = [];
-        let frame = 0, lastSpawn = 0, greenMeter = 0;
-        let rage = 0, disco = false, discoTaps = 0;
-        let gameState = 'start';
-        let audioCtx = null;
         
-        const deathMessages = ["BOK BOK... TOO GREEN! 💀🌿","Fox got you! 🦊","Eggsploded! 🥚💥","Chicken cooked 🔥","Not green enough bro","Meme died..."];
+        // Game vars
+        let playerLane = 1;
+        let targetLane = 1;
+        let playerX = 200;
+        let scrollSpeed = 2.8;
+        let score = 0;
+        let highScore = +localStorage.getItem('ggcHS') || 0;
+        let totalCoins = +localStorage.getItem('ggcCoins') || 0;
+        let upgrades = JSON.parse(localStorage.getItem('ggcUpg')) || {speed:1, magnet:0};
+        let obstacles = [];
+        let collectibles = [];
+        let particles = [];
+        let frame = 0;
+        let combo = 0;
+        let lives = 3;
+        let gameState = 'start';
+        let lastSpawn = 0;
+        let hypeTime = 0;
+        let audioCtx = null;
+        let deathMessages = ["GWEEN... too slow! 😭","Fox stole the ball! 🦊","Missed the green!","Chicken got cooked 🔥","GWEEN GWEEN... oops"];
+        
+        const laneX = [90, 200, 310];
         
         function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         
         function playSound(type) {
@@ -84,103 +95,92 @@
             const o = audioCtx.createOscillator();
             const g = audioCtx.createGain();
             o.connect(g); g.connect(audioCtx.destination);
-            if (type==='flap') {
-                o.type='sawtooth'; o.frequency.setValueAtTime(920, audioCtx.currentTime);
-                g.gain.value=0.4; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.13);
-                o.start(); o.stop(audioCtx.currentTime+0.13);
-            } else if (type==='coin') {
-                o.type='sine'; o.frequency.setValueAtTime(1320, audioCtx.currentTime);
-                setTimeout(()=>o.frequency.setValueAtTime(1980,audioCtx.currentTime+0.05),40);
-                g.gain.value=0.45; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.28);
-                o.start(); o.stop(audioCtx.currentTime+0.28);
-            } else if (type==='hit') {
-                o.type='sawtooth'; o.frequency.setValueAtTime(420, audioCtx.currentTime);
-                g.gain.value=0.7; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.55);
-                o.start(); o.stop(audioCtx.currentTime+0.55);
-            } else if (type==='rage') {
-                o.type='triangle'; o.frequency.setValueAtTime(880, audioCtx.currentTime);
-                g.gain.value=0.3; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.9);
-                o.start(); o.stop(audioCtx.currentTime+0.9);
+            if (type === 'jump') {
+                o.type = 'sine'; o.frequency.setValueAtTime(680, audioCtx.currentTime);
+                g.gain.value = 0.5; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                o.start(); o.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'coin') {
+                o.type = 'sine'; o.frequency.setValueAtTime(1100, audioCtx.currentTime);
+                setTimeout(() => o.frequency.setValueAtTime(1650, audioCtx.currentTime + 0.06), 40);
+                g.gain.value = 0.5; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                o.start(); o.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'hype') {
+                o.type = 'sawtooth'; o.frequency.setValueAtTime(440, audioCtx.currentTime);
+                g.gain.value = 0.4; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+                o.start(); o.stop(audioCtx.currentTime + 1.2);
+            } else if (type === 'hit') {
+                o.type = 'sawtooth'; o.frequency.setValueAtTime(280, audioCtx.currentTime);
+                g.gain.value = 0.8; g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.7);
+                o.start(); o.stop(audioCtx.currentTime + 0.7);
             }
         }
         
-        function createParticle(x,y,color,life=35) {
-            particles.push({x,y,vx:Math.random()*8-4,vy:Math.random()*8-7,color,life});
+        function createParticle(x, y, color, life = 30) {
+            particles.push({x, y, vx: Math.random() * 6 - 3, vy: Math.random() * 6 - 5, color, life, size: Math.random() * 8 + 5});
         }
         
         function drawBG() {
-            const g = ctx.createLinearGradient(0,0,0,H);
-            g.addColorStop(0, disco?'#ff44ff':'#66ffbb');
-            g.addColorStop(1, disco?'#44ffff':'#228844');
-            ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-            
-            ctx.fillStyle = '#118833';
+            ctx.fillStyle = '#112211';
+            ctx.fillRect(0, 0, W, H);
+            // Green court
+            ctx.fillStyle = '#00aa44';
+            ctx.fillRect(0, 380, W, 240);
+            // Lines
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 8;
             ctx.beginPath();
-            ctx.moveTo(-80,480); ctx.quadraticCurveTo(100,360,280,460); ctx.quadraticCurveTo(420,320,520,480);
-            ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.fill();
-            
-            ctx.fillStyle = '#0a5511';
-            ctx.fillRect(0,520,W,100);
-            
-            ctx.fillStyle = '#11aa33';
-            for(let i=-1;i<9;i++){
-                let gx = (frame*3.8 % 55) + i*55;
-                ctx.fillRect(gx,510,9,22);
-                ctx.fillRect(gx+18,505,6,28);
+            ctx.moveTo(0, 420); ctx.lineTo(W, 420);
+            ctx.moveTo(0, 520); ctx.lineTo(W, 520);
+            ctx.stroke();
+            // Scrolling background trees/hills
+            ctx.fillStyle = '#006622';
+            for (let i = -1; i < 6; i++) {
+                let gx = ((frame * 1.2) % 140) + i * 140;
+                ctx.fillRect(gx, 320, 60, 80);
             }
         }
         
         function drawChicken() {
             ctx.save();
-            ctx.translate(player.x, player.y);
-            ctx.rotate(player.angle);
+            ctx.translate(playerX, 440);
+            ctx.scale(1.1, 1.1);
             
-            ctx.fillStyle = rage ? '#00ff66' : '#00cc44';
-            ctx.beginPath(); ctx.ellipse(0,8,27,19,0,0,Math.PI*2); ctx.fill();
+            // Body
+            ctx.fillStyle = '#00cc44';
+            ctx.beginPath(); ctx.ellipse(0, 0, 26, 22, 0, 0, Math.PI * 2); ctx.fill();
             
-            ctx.beginPath(); ctx.arc(22,-11,15,0,Math.PI*2); ctx.fill();
+            // Head
+            ctx.beginPath(); ctx.arc(22, -18, 14, 0, Math.PI * 2); ctx.fill();
             
-            ctx.fillStyle = '#ffdd00';
-            ctx.beginPath(); ctx.moveTo(34,-11); ctx.lineTo(48,-8); ctx.lineTo(34,-4); ctx.fill();
+            // Beak
+            ctx.fillStyle = '#ffdd22';
+            ctx.beginPath(); ctx.moveTo(32, -18); ctx.lineTo(44, -16); ctx.lineTo(32, -12); ctx.fill();
             
-            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(27,-13,6.5,0,Math.PI*2); ctx.fill();
-            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(29,-13,3,0,Math.PI*2); ctx.fill();
+            // Eye
+            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(27, -20, 6, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(29, -20, 3, 0, Math.PI * 2); ctx.fill();
             
-            let wing = Math.sin(frame/3)*0.7 - (player.vy>0?0.3:-0.4);
+            // Wings
             ctx.fillStyle = '#007722';
-            ctx.beginPath(); ctx.ellipse(-9,12,19,9,wing,0,Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.ellipse(-12, 4, 18, 11, Math.sin(frame / 5) * 0.4, 0, Math.PI * 2); ctx.fill();
             
-            ctx.strokeStyle = '#ddbb00'; ctx.lineWidth=5;
-            ctx.beginPath();
-            ctx.moveTo(-8,22); ctx.lineTo(-14,35);
-            ctx.moveTo(8,22); ctx.lineTo(4,34);
-            ctx.stroke();
             ctx.restore();
         }
         
         function drawObstacle(o) {
             ctx.fillStyle = '#cc2222';
-            ctx.fillRect(o.x, 0, 58, o.top);
+            ctx.fillRect(o.x - 22, 410, 44, 80); // fox / obstacle
             ctx.fillStyle = '#aa1111';
-            ctx.fillRect(o.x+8, o.top-35, 42, 38);
-            
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(o.x+16, o.top-22, 7, 8);
-            ctx.fillRect(o.x+32, o.top-22, 7, 8);
-            
-            ctx.fillStyle = '#cc2222';
-            ctx.fillRect(o.x, o.bottom, 58, H-o.bottom+10);
+            ctx.fillRect(o.x - 28, 390, 56, 30); // head
         }
         
         function drawCollectible(c) {
             ctx.save();
-            ctx.translate(c.x, c.y);
-            ctx.rotate(Math.sin(frame/6)*0.4);
-            ctx.font = 'bold 36px sans-serif';
-            ctx.textAlign='center';
-            ctx.textBaseline='middle';
+            ctx.translate(c.x, c.y + Math.sin(frame / 4) * 6);
             ctx.fillStyle = '#ffee11';
-            ctx.fillText('🌿',0,4);
+            ctx.font = 'bold 42px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('🌿', 0, 0);
             ctx.restore();
         }
         
@@ -188,98 +188,124 @@
             if (gameState !== 'playing') return;
             frame++;
             
-            player.vy += gravity;
-            player.y += player.vy;
-            player.angle = Math.max(Math.min(player.vy*0.055, 1.1), -0.9);
+            // Lane lerp
+            playerX += (laneX[targetLane] - playerX) * 0.28;
             
-            if (player.y < 20 || player.y > 510) endGame();
+            // Scroll
+            scrollSpeed = 2.8 + upgrades.speed * 0.6 + Math.min(frame / 800, 4.5);
             
-            if (frame - lastSpawn > 72 - Math.min(score/12, 32)) {
-                const gap = 168;
-                let topH = 70 + Math.random()*(H - gap - 220);
-                obstacles.push({x:W+20, top:topH, bottom:topH+gap, passed:false});
+            // Spawn
+            if (frame - lastSpawn > 38 - Math.min(frame / 90, 22)) {
                 lastSpawn = frame;
-                if (Math.random() < 0.78) collectibles.push({x:W+92, y:topH + gap/2 + (Math.random()-0.5)*48});
+                const rnd = Math.random();
+                const l = Math.floor(Math.random() * 3);
+                if (rnd < 0.65) {
+                    obstacles.push({lane: l, x: W + 40});
+                } else {
+                    collectibles.push({lane: l, x: W + 40, y: 380 + Math.random() * 80});
+                }
             }
             
-            for (let i=obstacles.length-1; i>=0; i--) {
+            // Update obstacles
+            for (let i = obstacles.length - 1; i >= 0; i--) {
                 let o = obstacles[i];
-                o.x -= scrollSpeed + (rage?1.3:0);
+                o.x -= scrollSpeed;
+                if (o.x < -60) { obstacles.splice(i, 1); continue; }
                 
-                if (!o.passed && o.x+58 < player.x) { o.passed=true; score+=15; greenMeter=Math.min(100,greenMeter+12); }
-                
-                if (player.x + player.r > o.x && player.x - player.r < o.x+58) {
-                    if (player.y - player.r < o.top || player.y + player.r > o.bottom) endGame();
+                if (o.lane === targetLane && Math.abs(o.x - playerX) < 42) {
+                    hitObstacle(i);
                 }
-                
-                if (o.x < -80) obstacles.splice(i,1);
             }
             
-            for (let i=collectibles.length-1; i>=0; i--) {
+            // Collectibles
+            for (let i = collectibles.length - 1; i >= 0; i--) {
                 let c = collectibles[i];
-                c.x -= scrollSpeed + 0.7;
+                c.x -= scrollSpeed + 0.4;
                 
-                let d = Math.hypot(c.x-player.x, c.y-player.y);
-                if (d < 38 + upgrades.magnet*11) {
-                    c.x += (player.x - c.x) * 0.68;
-                    c.y += (player.y - c.y) * 0.68;
-                }
-                
-                if (d < 32) {
-                    collectibles.splice(i,1);
-                    totalCoins++; score += 9; greenMeter = Math.min(100, greenMeter+19);
+                let dx = c.x - playerX;
+                let dy = c.y - 440;
+                if (c.lane === targetLane && Math.hypot(dx, dy) < 48 + upgrades.magnet * 14) {
+                    totalCoins++;
+                    score += 12 + combo * 3;
+                    combo++;
                     playSound('coin');
-                    for(let k=0;k<16;k++) createParticle(c.x,c.y,'#ffee44',28);
+                    for (let k = 0; k < 18; k++) createParticle(c.x, c.y, '#ffee66', 32);
+                    
+                    if (combo % 8 === 0) triggerHype();
+                    
+                    collectibles.splice(i, 1);
                 }
-                if (c.x < -40) collectibles.splice(i,1);
+                
+                if (c.x < -40) collectibles.splice(i, 1);
             }
             
-            if (greenMeter >= 100 && rage===0) {
-                rage = 260; playSound('rage'); scrollSpeed = 5.3;
-            }
-            if (rage > 0) { rage--; if (rage===0) scrollSpeed = 3.2; }
-            
-            for(let i=particles.length-1;i>=0;i--){
-                let p=particles[i];
-                p.x+=p.vx; p.y+=p.vy; p.vy+=0.26; p.life--;
-                if(p.life<=0) particles.splice(i,1);
+            // Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.vy += 0.22; p.life--;
+                if (p.life <= 0) particles.splice(i, 1);
             }
             
-            if (frame%260===0 && scrollSpeed<5.9) scrollSpeed += 0.19;
-            score += 0.22;
+            score += 0.18;
+            
+            if (hypeTime > 0) hypeTime--;
+        }
+        
+        function triggerHype() {
+            hypeTime = 110;
+            playSound('hype');
+            document.getElementById('comboText').style.opacity = 1;
+            setTimeout(() => document.getElementById('comboText').style.opacity = 0, 1400);
+            for (let i = 0; i < 80; i++) {
+                createParticle(playerX + Math.random() * 80 - 40, 360 + Math.random() * 100, '#ffff00', 55);
+            }
+            score += 80;
+        }
+        
+        function hitObstacle(i) {
+            playSound('hit');
+            lives--;
+            for (let k = 0; k < 45; k++) createParticle(obstacles[i].x, 440, '#ff4444', 40);
+            obstacles.splice(i, 1);
+            
+            if (lives <= 0) {
+                endGame();
+            } else {
+                // short invincibility
+                setTimeout(() => {}, 800);
+            }
         }
         
         function draw() {
             drawBG();
-            obstacles.forEach(o=>drawObstacle(o));
-            collectibles.forEach(c=>drawCollectible(c));
+            
+            obstacles.forEach(o => drawObstacle(o));
+            collectibles.forEach(c => drawCollectible(c));
             drawChicken();
             
-            ctx.globalAlpha = 0.92;
+            // Particles
             for (let p of particles) {
+                ctx.globalAlpha = p.life / 35;
                 ctx.fillStyle = p.color;
-                let s = p.life/35*8;
-                ctx.fillRect(p.x-s/2, p.y-s/2, s, s);
+                ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
             }
-            ctx.globalAlpha=1;
+            ctx.globalAlpha = 1;
             
+            // HUD
             ctx.fillStyle = '#fff';
-            ctx.font = '900 46px Comic Neue';
+            ctx.font = '900 52px Comic Neue';
             ctx.textAlign = 'left';
-            ctx.fillText(Math.floor(score), 28, 66);
+            ctx.fillText(Math.floor(score), 24, 68);
             
-            ctx.fillStyle = '#113311';
-            ctx.fillRect(28,80,178,24);
-            ctx.fillStyle = rage ? '#ffff00' : '#00ff99';
-            ctx.fillRect(28,80,178*(greenMeter/100),24);
-            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 7;
-            ctx.strokeRect(28,80,178,24);
-            ctx.font = 'bold 16px sans-serif';
-            ctx.fillText('GREEN POWER', 38, 122);
+            // Lives
+            ctx.font = 'bold 32px sans-serif';
+            ctx.fillText('❤️'.repeat(lives), 24, 120);
             
-            if (rage>0) {
-                ctx.fillStyle = `rgba(255,255,100,${rage%14<7?0.7:0})`;
-                ctx.fillRect(0,0,W,H);
+            // Combo indicator
+            if (combo > 3) {
+                ctx.fillStyle = '#ffff00';
+                ctx.font = 'bold 26px Comic Neue';
+                ctx.fillText(combo + '× GWEEN!', 220, 68);
             }
         }
         
@@ -289,14 +315,6 @@
             requestAnimationFrame(loop);
         }
         
-        function flap() {
-            if (gameState!=='playing') return;
-            initAudio();
-            player.vy = jump - upgrades.flap*0.95;
-            playSound('flap');
-            for(let i=0;i<9;i++) createParticle(player.x-20, player.y+16, '#aaffcc',24);
-        }
-        
         function startGame() {
             document.getElementById('start').classList.remove('active');
             reset();
@@ -304,29 +322,26 @@
         }
         
         function reset() {
-            player.y = 260; player.vy = -7;
+            playerLane = 1; targetLane = 1; playerX = 200;
             obstacles = []; collectibles = []; particles = [];
-            score = 0; greenMeter = 0; rage = 0; scrollSpeed = 3.2;
-            frame = 0; lastSpawn = -80;
+            score = 0; combo = 0; lives = 3; scrollSpeed = 2.8;
+            frame = 0; lastSpawn = -40; hypeTime = 0;
         }
         
         function endGame() {
             gameState = 'over';
-            playSound('hit');
             document.getElementById('over').classList.add('active');
-            let finalScore = Math.floor(score);
-            document.getElementById('final').innerHTML = `SCORE: ${finalScore}<br>COINS +${Math.floor(finalScore/3.8)}`;
-            document.getElementById('meme').textContent = deathMessages[Math.floor(Math.random()*deathMessages.length)];
+            let final = Math.floor(score);
+            document.getElementById('final').innerHTML = `GWEEN SCORE<br>${final}`;
+            document.getElementById('meme').textContent = deathMessages[Math.floor(Math.random() * deathMessages.length)];
             
-            totalCoins += Math.floor(finalScore/3.8);
+            totalCoins += Math.floor(final / 3) + combo * 2;
             localStorage.setItem('ggcCoins', totalCoins);
             
-            if (finalScore > highScore) {
-                highScore = finalScore;
+            if (final > highScore) {
+                highScore = final;
                 localStorage.setItem('ggcHS', highScore);
             }
-            
-            for(let i=0;i<62;i++) createParticle(player.x+Math.random()*44-22, player.y+Math.random()*44-22, '#ffdd99', 62);
         }
         
         function restart() {
@@ -342,23 +357,23 @@
         }
         
         function share() {
-            const text = `I just smashed ${Math.floor(score)} in Green Green Chicken! 🐔🌿 BOK BOK GREEN GREEN! Can you beat me? greengreenchicken.com`;
-            if (navigator.share) navigator.share({title:'Green Green Chicken', text, url:'https://greengreenchicken.com'});
-            else { navigator.clipboard.writeText(text); alert('✅ Score copied! Paste on TikTok/IG/WhatsApp'); }
+            const text = `I just hit ${Math.floor(score)} in Green Green Chicken and screamed GWEEN GWEEN ${combo} times! 🐔🌿 Beat me at greengreenchicken.com`;
+            if (navigator.share) navigator.share({title: 'Green Green Chicken', text: text, url: 'https://greengreenchicken.com'});
+            else { navigator.clipboard.writeText(text); alert('✅ Copied! Paste on TikTok / IG / WhatsApp'); }
         }
         
         function watchRewarded() {
-            alert("📺 Rewarded ad would play here!\n\nDemo: +120 bonus coins added");
-            totalCoins += 120;
+            alert("📺 Rewarded ad demo\n+150 bonus coins added!");
+            totalCoins += 150;
             localStorage.setItem('ggcCoins', totalCoins);
             updateUI();
         }
         
         function updateUI() {
-            document.getElementById('hs').textContent = `High Score: ${highScore}`;
+            document.getElementById('hs').textContent = `Best: ${highScore}`;
             document.getElementById('totalCoins').textContent = totalCoins;
             document.getElementById('shopCoins').textContent = `🪙 ${totalCoins}`;
-            document.getElementById('flapLv').textContent = upgrades.flap;
+            document.getElementById('speedLv').textContent = upgrades.speed;
             document.getElementById('magLv').textContent = upgrades.magnet;
         }
         
@@ -374,65 +389,67 @@
             updateUI();
         }
         
-        function buyFlap() {
-            let cost = 45 + upgrades.flap * 32;
+        function buySpeed() {
+            let cost = 55 + upgrades.speed * 35;
             if (totalCoins >= cost) {
-                totalCoins -= cost; upgrades.flap++; localStorage.setItem('ggcUpg', JSON.stringify(upgrades)); localStorage.setItem('ggcCoins', totalCoins);
+                totalCoins -= cost;
+                upgrades.speed++;
+                localStorage.setItem('ggcUpg', JSON.stringify(upgrades));
+                localStorage.setItem('ggcCoins', totalCoins);
                 updateUI();
-            } else alert("Not enough coins yet! Keep flapping 🐔");
+            } else alert("Not enough coins! Keep collecting GWEEN! 🐔");
         }
         
         function buyMagnet() {
-            let cost = 75 + upgrades.magnet * 55;
+            let cost = 85 + upgrades.magnet * 60;
             if (totalCoins >= cost) {
-                totalCoins -= cost; upgrades.magnet++; localStorage.setItem('ggcUpg', JSON.stringify(upgrades)); localStorage.setItem('ggcCoins', totalCoins);
+                totalCoins -= cost;
+                upgrades.magnet++;
+                localStorage.setItem('ggcUpg', JSON.stringify(upgrades));
+                localStorage.setItem('ggcCoins', totalCoins);
                 updateUI();
             } else alert("Not enough coins 🪙");
         }
         
         function easterTap() {
-            discoTaps++;
-            if (discoTaps >= 8) {
-                disco = !disco; discoTaps = 0;
-                alert(disco ? "🌈 DISCO MODE ON! Neon chicken activated!" : "Back to normal green");
+            if (Math.random() < 0.2) alert("🌈 GWEEN GWEEN DISCO MODE! (just kidding... for now 😎)");
+        }
+        
+        // INPUT - SUPER SIMPLE FOR KIDS
+        function handleTap(e) {
+            if (gameState !== 'playing') return;
+            e.preventDefault();
+            const tapX = e.touches ? e.touches[0].clientX : e.clientX;
+            const relX = tapX - canvas.getBoundingClientRect().left;
+            if (relX < W * 0.5) {
+                targetLane = Math.max(0, targetLane - 1);
+            } else {
+                targetLane = Math.min(2, targetLane + 1);
             }
         }
         
-        // INPUT
-        function handleInput(e) {
-            e.preventDefault();
-            if (gameState === 'playing') flap();
-        }
+        canvas.addEventListener('touchstart', handleTap);
+        canvas.addEventListener('mousedown', handleTap);
         
-        canvas.addEventListener('touchstart', handleInput);
-        canvas.addEventListener('mousedown', handleInput);
-        
-        // === FIXED START SCREEN: TAP ANYWHERE ===
-        const startScreen = document.getElementById('start');
-        startScreen.addEventListener('touchstart', (e) => {
-            if (e.target.tagName !== 'BUTTON' && gameState === 'start') startGame();
-        });
-        startScreen.addEventListener('mousedown', (e) => {
-            if (e.target.tagName !== 'BUTTON' && gameState === 'start') startGame();
-        });
-        
+        // Keyboard for desktop
         document.addEventListener('keydown', e => {
-            if (e.key === ' ' && gameState === 'playing') flap();
-            if (e.key === ' ' && gameState === 'start') startGame();
+            if (gameState !== 'playing') return;
+            if (e.key === 'ArrowLeft' || e.key === 'a') targetLane = Math.max(0, targetLane - 1);
+            if (e.key === 'ArrowRight' || e.key === 'd') targetLane = Math.min(2, targetLane + 1);
         });
         
         // Init
         updateUI();
         loop();
         
-        function resizeCanvas() {
-            let ratio = W/H;
+        function resize() {
+            let ratio = W / H;
             let cw = Math.min(window.innerWidth * 0.96, 440);
             canvas.style.width = cw + 'px';
             canvas.style.height = (cw / ratio) + 'px';
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        window.addEventListener('resize', resize);
+        resize();
     </script>
 </body>
 </html>
